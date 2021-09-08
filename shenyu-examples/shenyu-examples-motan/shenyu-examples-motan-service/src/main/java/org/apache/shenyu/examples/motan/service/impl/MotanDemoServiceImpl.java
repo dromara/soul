@@ -31,4 +31,10 @@ public class MotanDemoServiceImpl implements MotanDemoService {
     public String hello(String name) {
         return "hello " + name;
     }
+
+    @Override
+    @ShenyuMotanClient(path = "/hello", wrap = false)
+    public String helloUnWrap(String name) {
+        return "hello " + name;
+    }
 }

@@ -69,7 +69,7 @@ public final class MetaDataControllerTest {
 
     private final MetaDataVO metaDataVO = new MetaDataVO("appName", "appPath", "desc", "rpcType", "serviceName", "methodName", "types", "rpcExt",
             "1", DateUtils.localDateTimeToString(LocalDateTime.now()), DateUtils.localDateTimeToString(LocalDateTime.now()),
-            true);
+            true, true);
 
     @Before
     public void setUp() {
@@ -89,9 +89,9 @@ public final class MetaDataControllerTest {
         final MetaDataQuery metaDataQuery = new MetaDataQuery("appName", pageParameter);
         given(this.metaDataService.listByPage(metaDataQuery)).willReturn(commonPager);
         this.mockMvc.perform(MockMvcRequestBuilders.get("/meta-data/queryList")
-                .param("appName", "appName")
-                .param("currentPage", pageParameter.getCurrentPage() + "")
-                .param("pageSize", pageParameter.getPageSize() + ""))
+                        .param("appName", "appName")
+                        .param("currentPage", pageParameter.getCurrentPage() + "")
+                        .param("pageSize", pageParameter.getPageSize() + ""))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message", is(ShenyuResultMessage.QUERY_SUCCESS)))
                 .andExpect(jsonPath("$.data.dataList[0].appName", is(metaDataVO.getAppName())))
@@ -144,8 +144,8 @@ public final class MetaDataControllerTest {
         metaDataDTO.setEnabled(false);
         given(this.metaDataService.createOrUpdate(metaDataDTO)).willReturn(StringUtils.EMPTY);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/meta-data/createOrUpdate")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(GsonUtils.getInstance().toJson(metaDataDTO)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(GsonUtils.getInstance().toJson(metaDataDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message", is(ShenyuResultMessage.CREATE_SUCCESS)))
                 .andReturn();
@@ -160,8 +160,8 @@ public final class MetaDataControllerTest {
         metaDataDTO.setEnabled(false);
         given(this.metaDataService.createOrUpdate(metaDataDTO)).willReturn(AdminConstants.PARAMS_ERROR);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/meta-data/createOrUpdate")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(GsonUtils.getInstance().toJson(metaDataDTO)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(GsonUtils.getInstance().toJson(metaDataDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message", is(AdminConstants.PARAMS_ERROR)))
                 .andReturn();
@@ -174,8 +174,8 @@ public final class MetaDataControllerTest {
         ids.add("2");
         given(this.metaDataService.delete(ids)).willReturn(2);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/meta-data/batchDeleted")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(GsonUtils.getInstance().toJson(ids)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(GsonUtils.getInstance().toJson(ids)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message", is(ShenyuResultMessage.DELETE_SUCCESS)))
                 .andExpect(jsonPath("$.data", is(2)))
@@ -189,8 +189,8 @@ public final class MetaDataControllerTest {
         batchCommonDTO.setEnabled(true);
         given(this.metaDataService.enabled(batchCommonDTO.getIds(), batchCommonDTO.getEnabled())).willReturn(StringUtils.EMPTY);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/meta-data/batchEnabled")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(GsonUtils.getInstance().toJson(batchCommonDTO)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(GsonUtils.getInstance().toJson(batchCommonDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message", is(ShenyuResultMessage.ENABLE_SUCCESS)))
                 .andReturn();
@@ -203,8 +203,8 @@ public final class MetaDataControllerTest {
         batchCommonDTO.setEnabled(true);
         given(this.metaDataService.enabled(batchCommonDTO.getIds(), batchCommonDTO.getEnabled())).willReturn(AdminConstants.ID_NOT_EXIST);
         this.mockMvc.perform(MockMvcRequestBuilders.post("/meta-data/batchEnabled")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(GsonUtils.getInstance().toJson(batchCommonDTO)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(GsonUtils.getInstance().toJson(batchCommonDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message", is(AdminConstants.ID_NOT_EXIST)))
                 .andReturn();

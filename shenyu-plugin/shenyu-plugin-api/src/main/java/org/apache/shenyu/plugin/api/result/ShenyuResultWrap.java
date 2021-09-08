@@ -23,17 +23,21 @@ import org.apache.shenyu.plugin.api.utils.SpringBeanUtils;
  * The type shenyu result warp.
  */
 public final class ShenyuResultWrap<T> {
-    
+
     /**
      * Success object.
      *
      * @param code    the code
      * @param message the message
      * @param object  the object
+     * @param wrap    whether wrap
      * @return the object
      */
-    public static Object success(final int code, final String message, final Object object) {
-        return SpringBeanUtils.getInstance().getBean(ShenyuResult.class).success(code, message, object);
+    public static Object success(final int code, final String message, final Object object, final boolean wrap) {
+        if (wrap) {
+            return SpringBeanUtils.getInstance().getBean(ShenyuResult.class).success(code, message, object);
+        }
+        return object;
     }
 
     /**

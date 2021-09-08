@@ -20,6 +20,7 @@
 package org.apache.shenyu.plugin.motan.response;
 
 import org.apache.shenyu.common.constant.Constants;
+import org.apache.shenyu.common.dto.MetaData;
 import org.apache.shenyu.common.enums.PluginEnum;
 import org.apache.shenyu.common.enums.RpcTypeEnum;
 import org.apache.shenyu.common.utils.JsonUtils;
@@ -55,7 +56,12 @@ public class MotanResponsePlugin implements ShenyuPlugin {
                 Object error = ShenyuResultWrap.error(ShenyuResultEnum.SERVICE_RESULT_ERROR.getCode(), ShenyuResultEnum.SERVICE_RESULT_ERROR.getMsg(), null);
                 return WebFluxResultUtils.result(exchange, error);
             }
-            Object success = ShenyuResultWrap.success(ShenyuResultEnum.SUCCESS.getCode(), ShenyuResultEnum.SUCCESS.getMsg(), JsonUtils.removeClass(result));
+            boolean wrap = true;
+            MetaData metaData = exchange.getAttribute(Constants.META_DATA);
+            if (metaData != null) {
+                wrap = metaData.getWrap() == null || metaData.getWrap();
+            }
+            Object success = ShenyuResultWrap.success(ShenyuResultEnum.SUCCESS.getCode(), ShenyuResultEnum.SUCCESS.getMsg(), JsonUtils.removeClass(result), wrap);
             return WebFluxResultUtils.result(exchange, success);
         }));
     }

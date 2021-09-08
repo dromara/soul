@@ -128,6 +128,7 @@ public class TarsServiceBeanPostProcessor implements BeanPostProcessor {
                 .rpcType("tars")
                 .rpcExt(rpcExt)
                 .enabled(shenyuTarsClient.enabled())
+                .wrap(shenyuTarsClient.wrap())
                 .build();
     }
 

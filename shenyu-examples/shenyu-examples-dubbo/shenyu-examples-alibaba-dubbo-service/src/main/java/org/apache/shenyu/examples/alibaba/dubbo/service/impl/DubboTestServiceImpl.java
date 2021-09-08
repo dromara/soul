@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 public class DubboTestServiceImpl implements DubboTestService {
 
     @Override
-    @ShenyuDubboClient(path = "/findById", desc = "Query by Id")
+    @ShenyuDubboClient(path = "/findById", desc = "Query by Id", wrap = false)
     public DubboTest findById(final String id) {
         DubboTest dubboTest = new DubboTest();
         dubboTest.setId(id);

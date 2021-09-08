@@ -54,6 +54,8 @@ public class MetaDataRegisterDTO implements DataTypeParent, Serializable {
 
     private boolean enabled;
 
+    private boolean wrap;
+
     private String host;
 
     private Integer port;
@@ -67,8 +69,9 @@ public class MetaDataRegisterDTO implements DataTypeParent, Serializable {
                                final String rpcType, final String serviceName,
                                final String methodName, final String ruleName,
                                final String parameterTypes, final String rpcExt,
-                               final boolean enabled, final String host,
-                               final Integer port, final List<String> pluginNames,
+                               final boolean enabled, final boolean wrap,
+                               final String host, final Integer port,
+                               final List<String> pluginNames,
                                final boolean registerMetaData) {
         this.appName = appName;
         this.contextPath = contextPath;
@@ -81,6 +84,7 @@ public class MetaDataRegisterDTO implements DataTypeParent, Serializable {
         this.parameterTypes = parameterTypes;
         this.rpcExt = rpcExt;
         this.enabled = enabled;
+        this.wrap = wrap;
         this.host = host;
         this.port = port;
         this.pluginNames = pluginNames;
@@ -102,6 +106,7 @@ public class MetaDataRegisterDTO implements DataTypeParent, Serializable {
         parameterTypes = builder.parameterTypes;
         rpcExt = builder.rpcExt;
         enabled = builder.enabled;
+        wrap = builder.wrap;
         host = builder.host;
         port = builder.port;
         pluginNames = builder.pluginNames;
@@ -312,12 +317,30 @@ public class MetaDataRegisterDTO implements DataTypeParent, Serializable {
     }
 
     /**
-     * setPath.
+     * isWrap.
+     *
+     * @return boolean
+     */
+    public boolean isWrap() {
+        return wrap;
+    }
+
+    /**
+     * setEnabled.
      *
      * @param enabled enabled
      */
     public void setEnabled(final boolean enabled) {
         this.enabled = enabled;
+    }
+
+    /**
+     * setWrap.
+     *
+     * @param wrap wrap
+     */
+    public void setWrap(final boolean wrap) {
+        this.wrap = wrap;
     }
 
     /**
@@ -415,6 +438,8 @@ public class MetaDataRegisterDTO implements DataTypeParent, Serializable {
         private String rpcExt;
 
         private boolean enabled;
+
+        private boolean wrap;
 
         private String host;
 
@@ -556,6 +581,18 @@ public class MetaDataRegisterDTO implements DataTypeParent, Serializable {
          */
         public Builder enabled(final boolean enabled) {
             this.enabled = enabled;
+            return this;
+        }
+
+        /**
+         * wrap the rpc response.
+         *
+         * @param wrap wrap
+         *
+         * @return Builder
+         */
+        public Builder wrap(final boolean wrap) {
+            this.wrap = wrap;
             return this;
         }
 

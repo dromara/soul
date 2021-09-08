@@ -124,6 +124,7 @@ public class AlibabaDubboServiceBeanListener implements ApplicationListener<Cont
                 .rpcExt(buildRpcExt(serviceBean))
                 .rpcType("dubbo")
                 .enabled(shenyuDubboClient.enabled())
+                .wrap(shenyuDubboClient.wrap())
                 .build();
     }
 

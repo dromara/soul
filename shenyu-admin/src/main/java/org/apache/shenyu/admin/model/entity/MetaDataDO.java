@@ -49,6 +49,11 @@ public final class MetaDataDO extends BaseDO implements Serializable {
      */
     private Boolean enabled;
 
+    /**
+     * whether wrap.
+     */
+    private Boolean wrap;
+
     public MetaDataDO() {
     }
 
@@ -60,7 +65,8 @@ public final class MetaDataDO extends BaseDO implements Serializable {
                       final String methodName,
                       final String parameterTypes,
                       final String rpcExt,
-                      final Boolean enabled) {
+                      final Boolean enabled,
+                      final Boolean wrap) {
         this.appName = appName;
         this.path = path;
         this.pathDesc = pathDesc;
@@ -70,6 +76,7 @@ public final class MetaDataDO extends BaseDO implements Serializable {
         this.parameterTypes = parameterTypes;
         this.rpcExt = rpcExt;
         this.enabled = enabled;
+        this.wrap = wrap;
     }
 
     /**
@@ -235,6 +242,24 @@ public final class MetaDataDO extends BaseDO implements Serializable {
     }
 
     /**
+     * Gets the value of wrap.
+     *
+     * @return the value of wrap
+     */
+    public Boolean getWrap() {
+        return wrap;
+    }
+
+    /**
+     * Sets the wrap.
+     *
+     * @param wrap wrap
+     */
+    public void setWrap(final Boolean wrap) {
+        this.wrap = wrap;
+    }
+
+    /**
      * builder method.
      *
      * @return builder object.
@@ -263,12 +288,13 @@ public final class MetaDataDO extends BaseDO implements Serializable {
                 && Objects.equals(methodName, that.methodName)
                 && Objects.equals(parameterTypes, that.parameterTypes)
                 && Objects.equals(rpcExt, that.rpcExt)
-                && Objects.equals(enabled, that.enabled);
+                && Objects.equals(enabled, that.enabled)
+                && Objects.equals(wrap, that.wrap);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), appName, path, pathDesc, rpcType, serviceName, methodName, parameterTypes, rpcExt, enabled);
+        return Objects.hash(super.hashCode(), appName, path, pathDesc, rpcType, serviceName, methodName, parameterTypes, rpcExt, enabled, wrap);
     }
 
     public static final class MetaDataDOBuilder {
@@ -296,6 +322,8 @@ public final class MetaDataDO extends BaseDO implements Serializable {
         private String rpcExt;
 
         private Boolean enabled;
+
+        private Boolean wrap;
 
         private MetaDataDOBuilder() {
         }
@@ -433,6 +461,17 @@ public final class MetaDataDO extends BaseDO implements Serializable {
         }
 
         /**
+         * wrap.
+         *
+         * @param wrap the wrap.
+         * @return MetaDataDOBuilder.
+         */
+        public MetaDataDOBuilder wrap(final Boolean wrap) {
+            this.wrap = wrap;
+            return this;
+        }
+
+        /**
          * build method.
          *
          * @return build object.
@@ -451,6 +490,7 @@ public final class MetaDataDO extends BaseDO implements Serializable {
             metaDataDO.setParameterTypes(parameterTypes);
             metaDataDO.setRpcExt(rpcExt);
             metaDataDO.setEnabled(enabled);
+            metaDataDO.setWrap(wrap);
             return metaDataDO;
         }
     }

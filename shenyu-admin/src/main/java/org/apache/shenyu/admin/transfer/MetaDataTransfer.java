@@ -57,6 +57,7 @@ public enum MetaDataTransfer {
                         .parameterTypes(dto.getParameterTypes())
                         .rpcExt(dto.getRpcExt())
                         .enabled(dto.getEnabled())
+                        .wrap(dto.getWrap())
                         .build())
                 .orElse(null);
     }
@@ -79,6 +80,7 @@ public enum MetaDataTransfer {
                         .parameterTypes(dto.getParameterTypes())
                         .rpcExt(dto.getRpcExt())
                         .enabled(dto.isEnabled())
+                        .wrap(dto.isWrap())
                         .build())
                 .orElse(null);
     }
@@ -102,6 +104,7 @@ public enum MetaDataTransfer {
                         .parameterTypes(v.getParameterTypes())
                         .rpcExt(v.getRpcExt())
                         .enabled(v.getEnabled())
+                        .wrap(v.getWrap())
                         .build())
                 .orElse(null);
     }
@@ -124,6 +127,7 @@ public enum MetaDataTransfer {
                         .parameterTypes(v.getParameterTypes())
                         .rpcExt(v.getRpcExt())
                         .enabled(v.getEnabled())
+                        .wrap(v.getWrap())
                         .build())
                 .orElse(null);
     }
@@ -160,6 +164,7 @@ public enum MetaDataTransfer {
                     metaDataVO.setRpcExt(metaDataDO.getRpcExt());
                     metaDataVO.setId(metaDataDO.getId());
                     metaDataVO.setEnabled(metaDataDO.getEnabled());
+                    metaDataVO.setWrap(metaDataDO.getWrap());
                     metaDataVO.setDateCreated(Optional.ofNullable(metaDataDO.getDateCreated())
                             .map(u -> DateUtils.localDateTimeToString(u.toLocalDateTime())).orElse(null));
                     metaDataVO.setDateUpdated(Optional.ofNullable(metaDataDO.getDateUpdated())

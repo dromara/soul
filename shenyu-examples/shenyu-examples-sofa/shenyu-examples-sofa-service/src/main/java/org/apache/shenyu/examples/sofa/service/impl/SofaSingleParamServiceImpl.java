@@ -31,7 +31,7 @@ import java.util.Random;
 public class SofaSingleParamServiceImpl implements SofaSingleParamService {
 
     @Override
-    @ShenyuSofaClient(path = "/findById", desc = "Find by Id")
+    @ShenyuSofaClient(path = "/findById", desc = "Find by Id", wrap = false)
     public SofaSimpleTypeBean findById(final String id) {
         SofaSimpleTypeBean sofaSimpleTypeBean = new SofaSimpleTypeBean();
         sofaSimpleTypeBean.setId(id);

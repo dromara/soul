@@ -36,4 +36,10 @@ public class HelloServantImpl implements HelloServant {
     public int helloInt(int no, String name) {
         return 1;
     }
+
+    @Override
+    @ShenyuTarsClient(path = "/helloIntUnWrap", desc = "helloIntUnWrap", wrap = false)
+    public int helloIntUnWrap(int no, String name) {
+        return 1;
+    }
 }

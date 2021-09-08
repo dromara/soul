@@ -57,6 +57,8 @@ public class MetaDataVO implements Serializable {
 
     private Boolean enabled;
 
+    private Boolean wrap;
+
     public MetaDataVO() {
     }
 
@@ -71,7 +73,8 @@ public class MetaDataVO implements Serializable {
                       final String id,
                       final String dateCreated,
                       final String dateUpdated,
-                      final Boolean enabled) {
+                      final Boolean enabled,
+                      final Boolean wrap) {
         this.appName = appName;
         this.path = path;
         this.pathDesc = pathDesc;
@@ -84,6 +87,7 @@ public class MetaDataVO implements Serializable {
         this.dateCreated = dateCreated;
         this.dateUpdated = dateUpdated;
         this.enabled = enabled;
+        this.wrap = wrap;
     }
 
     /**
@@ -302,6 +306,24 @@ public class MetaDataVO implements Serializable {
         this.enabled = enabled;
     }
 
+    /**
+     * Gets the value of wrap.
+     *
+     * @return the value of wrap
+     */
+    public Boolean getWrap() {
+        return wrap;
+    }
+
+    /**
+     * Sets the wrap.
+     *
+     * @param wrap wrap
+     */
+    public void setWrap(final Boolean wrap) {
+        this.wrap = wrap;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -322,12 +344,13 @@ public class MetaDataVO implements Serializable {
                 && Objects.equals(id, that.id)
                 && Objects.equals(dateCreated, that.dateCreated)
                 && Objects.equals(dateUpdated, that.dateUpdated)
-                && Objects.equals(enabled, that.enabled);
+                && Objects.equals(enabled, that.enabled)
+                && Objects.equals(wrap, that.wrap);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(appName, path, pathDesc, rpcType, serviceName, methodName, parameterTypes, rpcExt, id, dateCreated, dateUpdated, enabled);
+        return Objects.hash(appName, path, pathDesc, rpcType, serviceName, methodName, parameterTypes, rpcExt, id, dateCreated, dateUpdated, enabled, wrap);
     }
 
     @Override
@@ -345,6 +368,7 @@ public class MetaDataVO implements Serializable {
                 + ", dateCreated='" + dateCreated + '\''
                 + ", dateUpdated='" + dateUpdated + '\''
                 + ", enabled=" + enabled
+                + ", wrap=" + wrap
                 + '}';
     }
 }

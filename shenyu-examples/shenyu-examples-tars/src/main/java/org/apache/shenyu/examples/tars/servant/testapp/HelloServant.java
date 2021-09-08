@@ -15,4 +15,5 @@ public interface HelloServant {
 
     int helloInt(@TarsMethodParameter(name = "no") int no, @TarsMethodParameter(name = "name") String name);
 
+    int helloIntUnWrap(@TarsMethodParameter(name = "no") int no, @TarsMethodParameter(name = "name") String name);
 }

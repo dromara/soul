@@ -160,6 +160,7 @@ public class GrpcClientBeanPostProcessor implements BeanPostProcessor {
                 .rpcType("grpc")
                 .rpcExt(buildRpcExt(shenyuGrpcClient, methodType))
                 .enabled(shenyuGrpcClient.enabled())
+                .wrap(shenyuGrpcClient.wrap())
                 .build();
     }
 

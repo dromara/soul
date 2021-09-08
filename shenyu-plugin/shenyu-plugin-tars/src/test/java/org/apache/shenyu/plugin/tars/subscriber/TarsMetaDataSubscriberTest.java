@@ -39,7 +39,7 @@ public class TarsMetaDataSubscriberTest {
         metaData = new MetaData("id", "127.0.0.1:8080", "contextPath",
                 "path", RpcTypeEnum.TARS.getName(), "serviceName", "method1",
                 "parameterTypes", "{\"methodInfo\":[{\"methodName\":\"method1\",\"params\":[{\"left\":\"int\",\"right\":\"param1\"},"
-                + "{\"left\":\"java.lang.Integer\",\"right\":\"param2\"}],\"returnType\":\"java.lang.String\"}]}", false);
+                + "{\"left\":\"java.lang.Integer\",\"right\":\"param2\"}],\"returnType\":\"java.lang.String\"}]}", false, true);
         tarsMetaDataSubscriber = new TarsMetaDataSubscriber();
     }
 

@@ -54,6 +54,11 @@ public class MetaDataDTO implements Serializable {
     private Boolean enabled;
 
     /**
+     * whether wrap.
+     */
+    private Boolean wrap;
+
+    /**
      * Gets the value of id.
      *
      * @return the value of id
@@ -269,6 +274,24 @@ public class MetaDataDTO implements Serializable {
         this.enabled = enabled;
     }
 
+    /**
+     * Gets the value of wrap.
+     *
+     * @return the value of wrap
+     */
+    public Boolean getWrap() {
+        return wrap;
+    }
+
+    /**
+     * Sets the wrap.
+     *
+     * @param wrap wrap
+     */
+    public void setWrap(final Boolean wrap) {
+        this.wrap = wrap;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -289,11 +312,12 @@ public class MetaDataDTO implements Serializable {
                 && Objects.equals(methodName, that.methodName)
                 && Objects.equals(parameterTypes, that.parameterTypes)
                 && Objects.equals(rpcExt, that.rpcExt)
-                && Objects.equals(enabled, that.enabled);
+                && Objects.equals(enabled, that.enabled)
+                && Objects.equals(wrap, that.wrap);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, appName, contextPath, path, ruleName, pathDesc, rpcType, serviceName, methodName, parameterTypes, rpcExt, enabled);
+        return Objects.hash(id, appName, contextPath, path, ruleName, pathDesc, rpcType, serviceName, methodName, parameterTypes, rpcExt, enabled, wrap);
     }
 }

@@ -43,6 +43,8 @@ public class MetaData {
 
     private Boolean enabled;
 
+    private Boolean wrap;
+
     /**
      * no args constructor.
      */
@@ -64,7 +66,7 @@ public class MetaData {
      * @param enabled        enabled
      */
     public MetaData(final String id, final String appName, final String contextPath, final String path, final String rpcType, final String serviceName,
-                    final String methodName, final String parameterTypes, final String rpcExt, final Boolean enabled) {
+                    final String methodName, final String parameterTypes, final String rpcExt, final Boolean enabled, final Boolean wrap) {
         this.id = id;
         this.appName = appName;
         this.contextPath = contextPath;
@@ -75,6 +77,7 @@ public class MetaData {
         this.parameterTypes = parameterTypes;
         this.rpcExt = rpcExt;
         this.enabled = enabled;
+        this.wrap = wrap;
     }
 
     /**
@@ -93,6 +96,7 @@ public class MetaData {
         this.parameterTypes = builder.parameterTypes;
         this.rpcExt = builder.rpcExt;
         this.enabled = builder.enabled;
+        this.wrap = builder.wrap;
     }
 
     /**
@@ -284,6 +288,24 @@ public class MetaData {
         this.enabled = enabled;
     }
 
+    /**
+     * get wrap.
+     *
+     * @return wrap
+     */
+    public Boolean getWrap() {
+        return wrap;
+    }
+
+    /**
+     * set wrap.
+     *
+     * @param wrap wrap
+     */
+    public void setWrap(final Boolean wrap) {
+        this.wrap = wrap;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -296,12 +318,12 @@ public class MetaData {
         return Objects.equals(id, metaData.id) && Objects.equals(appName, metaData.appName) && Objects.equals(contextPath, metaData.contextPath)
                 && Objects.equals(path, metaData.path) && Objects.equals(rpcType, metaData.rpcType) && Objects.equals(serviceName, metaData.serviceName)
                 && Objects.equals(methodName, metaData.methodName) && Objects.equals(parameterTypes, metaData.parameterTypes)
-                && Objects.equals(rpcExt, metaData.rpcExt) && Objects.equals(enabled, metaData.enabled);
+                && Objects.equals(rpcExt, metaData.rpcExt) && Objects.equals(enabled, metaData.enabled) && Objects.equals(wrap, metaData.wrap);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, appName, contextPath, path, rpcType, serviceName, methodName, parameterTypes, rpcExt, enabled);
+        return Objects.hash(id, appName, contextPath, path, rpcType, serviceName, methodName, parameterTypes, rpcExt, enabled, wrap);
     }
 
     @Override
@@ -336,6 +358,8 @@ public class MetaData {
                 + '\''
                 + ", enabled="
                 + enabled
+                + ", wrap="
+                + wrap
                 + '}';
     }
 
@@ -403,6 +427,11 @@ public class MetaData {
          * enabled.
          */
         private Boolean enabled;
+
+        /**
+         * wrap.
+         */
+        private Boolean wrap;
 
         /**
          * no args constructor.
@@ -526,6 +555,17 @@ public class MetaData {
          */
         public Builder enabled(final Boolean enabled) {
             this.enabled = enabled;
+            return this;
+        }
+
+        /**
+         * build wrap.
+         *
+         * @param wrap wrap
+         * @return this
+         */
+        public Builder wrap(final Boolean wrap) {
+            this.wrap = wrap;
             return this;
         }
     }

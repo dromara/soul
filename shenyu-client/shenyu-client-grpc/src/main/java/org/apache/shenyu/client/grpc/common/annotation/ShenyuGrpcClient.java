@@ -57,6 +57,13 @@ public @interface ShenyuGrpcClient {
     boolean enabled() default true;
 
     /**
+     * wrap the rpc response.
+     *
+     * @return the boolean
+     */
+    boolean wrap() default true;
+
+    /**
      * Timeout long.
      *
      * @return the timeout

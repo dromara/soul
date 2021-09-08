@@ -123,6 +123,7 @@ public class ApacheDubboServiceBeanListener implements ApplicationListener<Conte
                 .rpcExt(buildRpcExt(serviceBean))
                 .rpcType("dubbo")
                 .enabled(shenyuDubboClient.enabled())
+                .wrap(shenyuDubboClient.wrap())
                 .build();
     }
 

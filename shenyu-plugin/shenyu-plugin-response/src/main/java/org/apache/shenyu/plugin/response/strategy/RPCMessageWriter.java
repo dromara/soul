@@ -18,6 +18,7 @@
 package org.apache.shenyu.plugin.response.strategy;
 
 import org.apache.shenyu.common.constant.Constants;
+import org.apache.shenyu.common.dto.MetaData;
 import org.apache.shenyu.common.utils.JsonUtils;
 import org.apache.shenyu.plugin.api.ShenyuPluginChain;
 import org.apache.shenyu.plugin.api.result.ShenyuResultEnum;
@@ -41,7 +42,12 @@ public class RPCMessageWriter implements MessageWriter {
                 Object error = ShenyuResultWrap.error(ShenyuResultEnum.SERVICE_RESULT_ERROR.getCode(), ShenyuResultEnum.SERVICE_RESULT_ERROR.getMsg(), null);
                 return WebFluxResultUtils.result(exchange, error);
             }
-            Object success = ShenyuResultWrap.success(ShenyuResultEnum.SUCCESS.getCode(), ShenyuResultEnum.SUCCESS.getMsg(), JsonUtils.removeClass(result));
+            boolean wrap = true;
+            MetaData metaData = exchange.getAttribute(Constants.META_DATA);
+            if (metaData != null) {
+                wrap = metaData.getWrap() == null || metaData.getWrap();
+            }
+            Object success = ShenyuResultWrap.success(ShenyuResultEnum.SUCCESS.getCode(), ShenyuResultEnum.SUCCESS.getMsg(), JsonUtils.removeClass(result), wrap);
             return WebFluxResultUtils.result(exchange, success);
         }));
     }

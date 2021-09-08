@@ -136,6 +136,7 @@ public class SofaServiceBeanPostProcessor implements BeanPostProcessor {
                 .rpcType("sofa")
                 .rpcExt(buildRpcExt(shenyuSofaClient))
                 .enabled(shenyuSofaClient.enabled())
+                .wrap(shenyuSofaClient.wrap())
                 .build();
     }
 

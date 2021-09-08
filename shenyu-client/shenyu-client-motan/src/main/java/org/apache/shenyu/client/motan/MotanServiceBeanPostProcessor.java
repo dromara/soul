@@ -156,6 +156,7 @@ public class MotanServiceBeanPostProcessor implements BeanPostProcessor, Applica
                 .rpcType("motan")
                 .rpcExt(rpcExt)
                 .enabled(shenyuMotanClient.enabled())
+                .wrap(shenyuMotanClient.wrap())
                 .build();
     }
 
