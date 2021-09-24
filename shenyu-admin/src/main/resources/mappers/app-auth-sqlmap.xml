@@ -47,7 +47,6 @@
         <include refid="Base_Column_List"/>
         from app_auth
         where app_key = #{appKey,jdbcType=VARCHAR}
-        limit 1
     </select>
 
 

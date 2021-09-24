@@ -32,7 +32,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, `type`, dict_code, dict_name, dict_value, `desc`, sort, enabled, date_created, date_updated
+        id, type, dict_code, dict_name, dict_value, `desc`, sort, enabled, date_created, date_updated
     </sql>
 
     <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -45,7 +45,7 @@
     <select id="findByType" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from shenyu_dict where `type` = #{type,jdbcType=VARCHAR}
+        from shenyu_dict where type = #{type,jdbcType=VARCHAR}
     </select>
 
     <delete id="delete" parameterType="java.lang.String">
@@ -54,7 +54,7 @@
     </delete>
 
     <insert id="insert" parameterType="org.apache.shenyu.admin.model.entity.ShenyuDictDO">
-    insert into shenyu_dict (id, `type`, dict_code, dict_name, dict_value, `desc`, sort, enabled, date_created, date_updated
+    insert into shenyu_dict (id, type, dict_code, dict_name, dict_value, `desc`, sort, enabled, date_created, date_updated
       )
     values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{dictCode,jdbcType=VARCHAR},
       #{dictName,jdbcType=VARCHAR}, #{dictValue,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER},
@@ -69,7 +69,7 @@
                 id,
             </if>
             <if test="type != null">
-                `type`,
+                type,
             </if>
             <if test="dictCode != null">
                 dict_code,
@@ -133,7 +133,7 @@
         update shenyu_dict
         <set>
             <if test="type != null">
-                `type` = #{type,jdbcType=VARCHAR},
+                type = #{type,jdbcType=VARCHAR},
             </if>
             <if test="dictCode != null">
                 dict_code = #{dictCode,jdbcType=VARCHAR},
@@ -165,7 +165,7 @@
 
     <update id="updateByPrimaryKey" parameterType="org.apache.shenyu.admin.model.entity.ShenyuDictDO">
         update shenyu_dict
-        set `type` = #{type,jdbcType=VARCHAR},
+        set type = #{type,jdbcType=VARCHAR},
           dict_code = #{dictCode,jdbcType=VARCHAR},
           dict_name = #{dictName,jdbcType=VARCHAR},
           dict_value = #{dictValue,jdbcType=VARCHAR},
@@ -182,7 +182,7 @@
         from shenyu_dict
         <where>
             <if test="type != null and type != ''">
-                and `type` = #{type,jdbcType=VARCHAR}
+                and type = #{type,jdbcType=VARCHAR}
             </if>
             <if test="dictCode != null and dictCode != ''">
                 and dict_code = #{dictCode,jdbcType=VARCHAR}
@@ -199,7 +199,7 @@
         from shenyu_dict
         <where>
             <if test="type != null and type != ''">
-                and `type` = #{type,jdbcType=VARCHAR}
+                and type = #{type,jdbcType=VARCHAR}
             </if>
             <if test="dictCode != null and dictCode != ''">
                 and dict_code = #{dictCode,jdbcType=VARCHAR}
@@ -208,7 +208,7 @@
                 and dict_name = #{dictName,jdbcType=VARCHAR}
             </if>
         </where>
-        order by `type`,sort asc
+        order by type,sort asc
     </select>
 
     <update id="enabled">

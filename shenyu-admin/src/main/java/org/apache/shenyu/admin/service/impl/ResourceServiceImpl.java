@@ -212,10 +212,10 @@ public class ResourceServiceImpl implements ResourceService {
         resourceIds.forEach(item -> {
             matchResourceIds.clear();
             metaList.forEach(resource -> {
-                if (resource.getParentId().equals(item)) {
+                if (item.equals(resource.getParentId())) {
                     matchResourceIds.add(resource.getId());
                 }
-                if (resource.getId().equals(item) || resource.getParentId().equals(item)) {
+                if (item.equals(resource.getId()) || item.equals(resource.getParentId())) {
                     deleteResourceIds.put(resource.getId(), resource.getTitle());
                 }
             });

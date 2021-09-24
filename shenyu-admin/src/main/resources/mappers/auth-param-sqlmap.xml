@@ -44,7 +44,6 @@
         from auth_param
         where auth_id = #{authId,jdbcType=VARCHAR}
         and app_name = #{appName,jdbcType=VARCHAR}
-        limit 1
     </select>
 
 
