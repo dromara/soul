@@ -19,7 +19,7 @@ package org.apache.shenyu.plugin.cryptor.request;
 
 import org.apache.shenyu.common.dto.RuleData;
 import org.apache.shenyu.common.dto.SelectorData;
-import org.apache.shenyu.common.dto.convert.rule.impl.CryptorRequestRuleHandle;
+import org.apache.shenyu.common.dto.convert.rule.impl.CryptorRuleHandle;
 import org.apache.shenyu.common.enums.PluginEnum;
 import org.apache.shenyu.plugin.api.ShenyuPluginChain;
 import org.apache.shenyu.plugin.api.result.ShenyuResultEnum;
@@ -62,7 +62,7 @@ public class CryptorRequestPlugin extends AbstractShenyuPlugin {
     @Override
     @SuppressWarnings("unchecked")
     protected Mono<Void> doExecute(final ServerWebExchange exchange, final ShenyuPluginChain chain, final SelectorData selector, final RuleData rule) {
-        CryptorRequestRuleHandle ruleHandle = CryptorRequestPluginDataHandler.CACHED_HANDLE.get().obtainHandle(CacheKeyUtils.INST.getKey(rule));
+        CryptorRuleHandle ruleHandle = CryptorRequestPluginDataHandler.CACHED_HANDLE.get().obtainHandle(CacheKeyUtils.INST.getKey(rule));
         if (Objects.isNull(ruleHandle)) {
             LOG.error("Cryptor request rule configuration is null :{}", rule.getId());
             return chain.execute(exchange);
@@ -98,20 +98,19 @@ public class CryptorRequestPlugin extends AbstractShenyuPlugin {
     public String named() {
         return PluginEnum.CRYPTOR_REQUEST.getName();
     }
-    
-    @SuppressWarnings("rawtypes")
-    private Mono strategyMatch(final CryptorRequestRuleHandle ruleHandle, final String originalBody, final ServerWebExchange exchange) {
+
+    private Mono strategyMatch(final CryptorRuleHandle ruleHandle, final String originalBody, final ServerWebExchange exchange) {
         String parseBody = JsonUtil.parser(originalBody, ruleHandle.getFieldNames());
         if (null == parseBody) {
             Object error = ShenyuResultWrap.error(ShenyuResultEnum.CRYPTOR_REQUEST_ERROR_CONFIGURATION.getCode(),
                     ShenyuResultEnum.CRYPTOR_REQUEST_ERROR_CONFIGURATION.getMsg() + "[fieldNames]", null);
             return WebFluxResultUtils.result(exchange, error);
         }
-        String modifiedBody = CryptorStrategyFactory.decrypt(ruleHandle.getStrategyName(), ruleHandle.getKey(), parseBody);
+        String modifiedBody = CryptorStrategyFactory.match(ruleHandle, parseBody);
         if (modifiedBody == null) {
-            Object error = ShenyuResultWrap.error(ShenyuResultEnum.DECRYPTION_ERROR.getCode(), ShenyuResultEnum.DECRYPTION_ERROR.getMsg(), null);
-            return WebFluxResultUtils.result(exchange, error);
+            return HttpUtil.fail(ruleHandle.getWay(), exchange);
         }
-        return Mono.just(modifiedBody);
+        return HttpUtil.success(originalBody, modifiedBody, ruleHandle.getWay(), ruleHandle.getFieldNames());
     }
+
 }

@@ -189,6 +189,11 @@ public enum ShenyuResultEnum {
     DECRYPTION_ERROR(-117, "Decryption failed, please check the parameters or key, or the data length is too long"),
 
     /**
+     * Encryption error.
+     */
+    ENCRYPTION_ERROR(-118, "Encryption failed, please check the parameters or key, or the data length is too long"),
+
+    /**
      * Request Header Fields Too Large.
      */
     REQUEST_HEADER_TOO_LARGE(431, "Request Header Fields Too Large"),

@@ -17,6 +17,7 @@
 
 package org.apache.shenyu.plugin.cryptor.strategy;
 
+import org.apache.shenyu.common.dto.convert.rule.impl.CryptorRuleHandle;
 import org.apache.shenyu.spi.ExtensionLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +26,13 @@ import org.slf4j.LoggerFactory;
  * The type Cryptor strategy factory.
  */
 public class CryptorStrategyFactory {
+
+    public static final String DECRYPT = "decrypt";
+
+    public static final String ENCRYPT = "encrypt";
     
     private static final Logger LOG = LoggerFactory.getLogger(CryptorStrategyFactory.class);
-    
+
     /**
      * New instance cryptor strategy.
      *
@@ -37,18 +42,36 @@ public class CryptorStrategyFactory {
     public static CryptorStrategy newInstance(final String strategyName) {
         return ExtensionLoader.getExtensionLoader(CryptorStrategy.class).getJoin(strategyName);
     }
+
+    /**
+     * Match decrypt or encrypt.
+     *
+     * @param ruleHandle rule.
+     * @param data requestBody
+     * @return Return the parsed data if the match is successful, otherwise return null.
+     */
+    public static String match(final CryptorRuleHandle ruleHandle, final String data) {
+        switch (ruleHandle.getWay()) {
+            case DECRYPT:
+                return decrypt(ruleHandle.getStrategyName(), ruleHandle.getDecryptKey(), data);
+            case ENCRYPT:
+                return encrypt(ruleHandle.getStrategyName(), ruleHandle.getEncryptKey(), data);
+            default:
+                return null;
+        }
+    }
     
     /**
      * Encrypt string.
      *
      * @param strategyName the strategy name
      * @param key the key
-     * @param encryptData the encrypt data
+     * @param data the data
      * @return the string
      */
-    public static String encrypt(final String strategyName, final String key, final String encryptData) {
+    private static String encrypt(final String strategyName, final String key, final String data) {
         try {
-            return newInstance(strategyName).encrypt(key, encryptData);
+            return newInstance(strategyName).encrypt(key, data);
         } catch (Exception e) {
             LOG.error("encrypt data error: ", e);
             return null;
@@ -63,7 +86,7 @@ public class CryptorStrategyFactory {
      * @param encryptData the encrypt data
      * @return the string
      */
-    public static String decrypt(final String strategyName, final String key, final String encryptData) {
+    private static String decrypt(final String strategyName, final String key, final String encryptData) {
         try {
             return newInstance(strategyName).decrypt(key, encryptData);
         } catch (Exception e) {
@@ -71,4 +94,5 @@ public class CryptorStrategyFactory {
             return null;
         }
     }
+
 }

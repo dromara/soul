@@ -22,13 +22,17 @@ import org.apache.shenyu.common.dto.convert.rule.RuleHandle;
 /**
  * Cryptor response rule handle.
  */
-public class CryptorResponseRuleHandle implements RuleHandle {
+public class CryptorRuleHandle implements RuleHandle {
 
     private String strategyName;
 
-    private String key;
+    private String decryptKey;
+
+    private String encryptKey;
 
     private String fieldNames;
+
+    private String way;
 
     /**
      * get strategyName.
@@ -47,19 +51,35 @@ public class CryptorResponseRuleHandle implements RuleHandle {
     }
 
     /**
-     * get key.
-     * @return key
+     * get decryptKey.
+     * @return decryptKey
      */
-    public String getKey() {
-        return key;
+    public String getDecryptKey() {
+        return decryptKey;
     }
 
     /**
-     * set key.
-     * @param key key
+     * set decryptKey.
+     * @param decryptKey decryptKey
      */
-    public void setKey(final String key) {
-        this.key = key;
+    public void setDecryptKey(final String decryptKey) {
+        this.decryptKey = decryptKey;
+    }
+
+    /**
+     * get encryptKey.
+     * @return encryptKey
+     */
+    public String getEncryptKey() {
+        return encryptKey;
+    }
+
+    /**
+     * set encryptKey.
+     * @param encryptKey encryptKey
+     */
+    public void setEncryptKey(final String encryptKey) {
+        this.encryptKey = encryptKey;
     }
 
     /**
@@ -78,12 +98,30 @@ public class CryptorResponseRuleHandle implements RuleHandle {
         this.fieldNames = fieldNames;
     }
 
+    /**
+     * set way.
+     * @return way
+     */
+    public String getWay() {
+        return way;
+    }
+
+    /**
+     * set way.
+     * @param way way
+     */
+    public void setWay(final String way) {
+        this.way = way;
+    }
+
     @Override
     public String toString() {
         return "CryptorResponseRuleHandle{"
-                + ", strategyName='" + strategyName + '\''
-                + ", key='" + key + '\''
+                + "strategyName='" + strategyName + '\''
+                + ", decryptKey='" + decryptKey + '\''
+                + ", encryptKey='" + encryptKey + '\''
                 + ", fieldNames='" + fieldNames + '\''
+                + ", way='" + way + '\''
                 + '}';
     }
 

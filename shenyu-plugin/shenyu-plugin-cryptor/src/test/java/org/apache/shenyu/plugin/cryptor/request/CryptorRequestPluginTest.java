@@ -63,26 +63,104 @@ public class CryptorRequestPluginTest {
         this.ruleData = new RuleData();
         this.ruleData.setSelectorId("test");
         this.ruleData.setName("test-cryptor-request-plugin");
+        this.cryptorRequestPluginDataHandler = new CryptorRequestPluginDataHandler();
+        this.cryptorRequestPlugin = new CryptorRequestPlugin();
+    }
+
+    @Test
+    public void decryptTest() {
         this.ruleData.setHandle("{\"strategyName\":\"rsa\","
                 + "\"fieldNames\":\"inputToken\","
-                + "\"key\":\"MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAtrfolGUtLhZVSpd5L/oAXbGW9Rn54mD96Ny"
+                + "\"decryptKey\":\"MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAtrfolGUtLhZVSpd5L/oAXbGW9Rn54mD96Ny"
                 + "uWsxp/KCscDoeFScN7uSc3LwKk14wrC4X0+fSDxm0kMPTvgNBywIDAQABAkBFPvt4ycNOlQ4r364A3akn2PbR2s9V2NZBW"
                 + "ukE5jVAlOvgCn6L/+tsVDSQgeVtOPd6rwM2a24iASDsNEbnVrwBAiEA34DwAmsa1phE5aGKM1bPHJiGgM8yolIYDWBaBCu"
                 + "PTgECIQDRSOWA8rLJWP+Vijm/QB8C41Gw1V7WXC2Kuj07Jv5nywIgTDKCIODw8m5RNtRe8GfNDlu1p158TbidOJo7tiY/og"
-                + "ECIQCaj0tvP83qBWA8AClFpQVCDL936RxxEwJPQduWo+WeoQIhAN7HKEW0E97il2RvCsgeArdt83WjZh7OhMhW6MLPrMjs\""
+                + "ECIQCaj0tvP83qBWA8AClFpQVCDL936RxxEwJPQduWo+WeoQIhAN7HKEW0E97il2RvCsgeArdt83WjZh7OhMhW6MLPrMjs\","
+                + "\"encryptKey\":\"MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALa36JRlLS4WVUqXeS/6AF2xlvUZ+eJg/ejcrlrMafygrHA6Hh"
+                + "UnDe7knNy8CpNeMKwuF9Pn0g8ZtJDD074DQcsCAwEAAQ\\u003d\\u003d\","
+                + "\"way\":\"decrypt\""
                 + "}\n");
-        this.cryptorRequestPluginDataHandler = new CryptorRequestPluginDataHandler();
-        this.cryptorRequestPlugin = new CryptorRequestPlugin();
         this.exchange = MockServerWebExchange.from(MockServerHttpRequest
                 .method(HttpMethod.POST, "/test")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body("{\"inputToken\": "
                         + "\"kYPZgOAR2pEipskl5WURW/r3CMxNQJwbs4jbTAOfZNV39L4WkaTOqAeolV+rlKCKiXKvhfHWaxQOTMm9hQBxLA==\""
                         + "}"));
+        SelectorData selectorData = mock(SelectorData.class);
+        when(this.chain.execute(any())).thenReturn(Mono.empty());
+        cryptorRequestPluginDataHandler.handlerRule(ruleData);
+        StepVerifier.create(cryptorRequestPlugin.doExecute(this.exchange, this.chain, selectorData, this.ruleData)).expectSubscription().verifyComplete();
     }
 
     @Test
-    public void doExecuteTest() {
+    public void encryptTest() {
+        this.ruleData.setHandle("{\"strategyName\":\"rsa\","
+                + "\"fieldNames\":\"inputToken\","
+                + "\"decryptKey\":\"MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAtrfolGUtLhZVSpd5L/oAXbGW9Rn54mD96Ny"
+                + "uWsxp/KCscDoeFScN7uSc3LwKk14wrC4X0+fSDxm0kMPTvgNBywIDAQABAkBFPvt4ycNOlQ4r364A3akn2PbR2s9V2NZBW"
+                + "ukE5jVAlOvgCn6L/+tsVDSQgeVtOPd6rwM2a24iASDsNEbnVrwBAiEA34DwAmsa1phE5aGKM1bPHJiGgM8yolIYDWBaBCu"
+                + "PTgECIQDRSOWA8rLJWP+Vijm/QB8C41Gw1V7WXC2Kuj07Jv5nywIgTDKCIODw8m5RNtRe8GfNDlu1p158TbidOJo7tiY/og"
+                + "ECIQCaj0tvP83qBWA8AClFpQVCDL936RxxEwJPQduWo+WeoQIhAN7HKEW0E97il2RvCsgeArdt83WjZh7OhMhW6MLPrMjs\","
+                + "\"encryptKey\":\"MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALa36JRlLS4WVUqXeS/6AF2xlvUZ+eJg/ejcrlrMafygrHA6Hh"
+                + "UnDe7knNy8CpNeMKwuF9Pn0g8ZtJDD074DQcsCAwEAAQ\\u003d\\u003d\","
+                + "\"way\":\"encrypt\""
+                + "}\n");
+        this.exchange = MockServerWebExchange.from(MockServerHttpRequest
+                .method(HttpMethod.POST, "/test")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body("{\"inputToken\": "
+                        + "\"shenyu\""
+                        + "}"));
+        SelectorData selectorData = mock(SelectorData.class);
+        when(this.chain.execute(any())).thenReturn(Mono.empty());
+        cryptorRequestPluginDataHandler.handlerRule(ruleData);
+        StepVerifier.create(cryptorRequestPlugin.doExecute(this.exchange, this.chain, selectorData, this.ruleData)).expectSubscription().verifyComplete();
+    }
+
+    @Test
+    public void multiJsonEncryptTest() {
+        this.ruleData.setHandle("{\"strategyName\":\"rsa\","
+                + "\"fieldNames\":\"inputToken.test\","
+                + "\"decryptKey\":\"MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAtrfolGUtLhZVSpd5L/oAXbGW9Rn54mD96Ny"
+                + "uWsxp/KCscDoeFScN7uSc3LwKk14wrC4X0+fSDxm0kMPTvgNBywIDAQABAkBFPvt4ycNOlQ4r364A3akn2PbR2s9V2NZBW"
+                + "ukE5jVAlOvgCn6L/+tsVDSQgeVtOPd6rwM2a24iASDsNEbnVrwBAiEA34DwAmsa1phE5aGKM1bPHJiGgM8yolIYDWBaBCu"
+                + "PTgECIQDRSOWA8rLJWP+Vijm/QB8C41Gw1V7WXC2Kuj07Jv5nywIgTDKCIODw8m5RNtRe8GfNDlu1p158TbidOJo7tiY/og"
+                + "ECIQCaj0tvP83qBWA8AClFpQVCDL936RxxEwJPQduWo+WeoQIhAN7HKEW0E97il2RvCsgeArdt83WjZh7OhMhW6MLPrMjs\","
+                + "\"encryptKey\":\"MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALa36JRlLS4WVUqXeS/6AF2xlvUZ+eJg/ejcrlrMafygrHA6Hh"
+                + "UnDe7knNy8CpNeMKwuF9Pn0g8ZtJDD074DQcsCAwEAAQ\\u003d\\u003d\","
+                + "\"way\":\"encrypt\""
+                + "}\n");
+        this.exchange = MockServerWebExchange.from(MockServerHttpRequest
+                .method(HttpMethod.POST, "/test")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body("{\"inputToken\": "
+                        + "{\"test\":\"shenyu\"}"
+                        + "}"));
+        SelectorData selectorData = mock(SelectorData.class);
+        when(this.chain.execute(any())).thenReturn(Mono.empty());
+        cryptorRequestPluginDataHandler.handlerRule(ruleData);
+        StepVerifier.create(cryptorRequestPlugin.doExecute(this.exchange, this.chain, selectorData, this.ruleData)).expectSubscription().verifyComplete();
+    }
+
+    @Test
+    public void multiJsonDecryptTest() {
+        this.ruleData.setHandle("{\"strategyName\":\"rsa\","
+                + "\"fieldNames\":\"inputToken.test\","
+                + "\"decryptKey\":\"MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAtrfolGUtLhZVSpd5L/oAXbGW9Rn54mD96Ny"
+                + "uWsxp/KCscDoeFScN7uSc3LwKk14wrC4X0+fSDxm0kMPTvgNBywIDAQABAkBFPvt4ycNOlQ4r364A3akn2PbR2s9V2NZBW"
+                + "ukE5jVAlOvgCn6L/+tsVDSQgeVtOPd6rwM2a24iASDsNEbnVrwBAiEA34DwAmsa1phE5aGKM1bPHJiGgM8yolIYDWBaBCu"
+                + "PTgECIQDRSOWA8rLJWP+Vijm/QB8C41Gw1V7WXC2Kuj07Jv5nywIgTDKCIODw8m5RNtRe8GfNDlu1p158TbidOJo7tiY/og"
+                + "ECIQCaj0tvP83qBWA8AClFpQVCDL936RxxEwJPQduWo+WeoQIhAN7HKEW0E97il2RvCsgeArdt83WjZh7OhMhW6MLPrMjs\","
+                + "\"encryptKey\":\"MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALa36JRlLS4WVUqXeS/6AF2xlvUZ+eJg/ejcrlrMafygrHA6Hh"
+                + "UnDe7knNy8CpNeMKwuF9Pn0g8ZtJDD074DQcsCAwEAAQ\\u003d\\u003d\","
+                + "\"way\":\"decrypt\""
+                + "}\n");
+        this.exchange = MockServerWebExchange.from(MockServerHttpRequest
+                .method(HttpMethod.POST, "/test")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body("{\"inputToken\": "
+                        + "{\"test\":\"kYPZgOAR2pEipskl5WURW/r3CMxNQJwbs4jbTAOfZNV39L4WkaTOqAeolV+rlKCKiXKvhfHWaxQOTMm9hQBxLA==\"}"
+                        + "}"));
         SelectorData selectorData = mock(SelectorData.class);
         when(this.chain.execute(any())).thenReturn(Mono.empty());
         cryptorRequestPluginDataHandler.handlerRule(ruleData);

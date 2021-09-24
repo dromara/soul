@@ -17,11 +17,20 @@
 
 package org.apache.shenyu.plugin.cryptor.utils;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import org.apache.shenyu.plugin.api.result.ShenyuResultEnum;
+import org.apache.shenyu.plugin.api.result.ShenyuResultWrap;
+import org.apache.shenyu.plugin.api.utils.WebFluxResultUtils;
 import org.apache.shenyu.plugin.base.support.CachedBodyOutputMessage;
+import org.apache.shenyu.plugin.cryptor.strategy.CryptorStrategyFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * http util.
@@ -71,4 +80,45 @@ public class HttpUtil {
         }
         return Mono.error(throwable);
     }
+
+    /**
+     * error handling.
+     * @param mode decrypt or encrypt
+     * @param exchange exchange
+     * @return Mono
+     */
+    public static Mono<Void> fail(final String mode, final ServerWebExchange exchange) {
+        Object error;
+        if (CryptorStrategyFactory.DECRYPT.equals(mode)) {
+            error = ShenyuResultWrap.error(ShenyuResultEnum.DECRYPTION_ERROR.getCode(), ShenyuResultEnum.DECRYPTION_ERROR.getMsg(), null);
+        } else {
+            error = ShenyuResultWrap.error(ShenyuResultEnum.ENCRYPTION_ERROR.getCode(), ShenyuResultEnum.ENCRYPTION_ERROR.getMsg(), null);
+        }
+        return WebFluxResultUtils.result(exchange, error);
+    }
+
+    /**
+     * If it is decrypt mode, replace the original requestBody,
+     * if it is encrypt mode, it will replace the content of the fieldName configuration.
+     *
+     * @param originalBody original Body of data.
+     * @param modifiedBody modified body
+     * @param way mode decrypt or encrypt
+     * @param fieldNames fieldNames
+     * @return Mono
+     */
+    public static Mono<String> success(final String originalBody, final String modifiedBody, final String way, final String fieldNames) {
+        if (CryptorStrategyFactory.DECRYPT.equals(way)) {
+            return Mono.just(modifiedBody);
+        }
+        AtomicInteger initDeep = new AtomicInteger();
+        initDeep.set(0);
+        JsonElement je = new JsonParser().parse(originalBody);
+        JsonElement resultJe = JsonUtil.replaceJsonNode(je,
+                initDeep,
+                modifiedBody,
+                Arrays.asList(fieldNames.split("\\.")));
+        return Mono.just(resultJe.toString());
+    }
+
 }

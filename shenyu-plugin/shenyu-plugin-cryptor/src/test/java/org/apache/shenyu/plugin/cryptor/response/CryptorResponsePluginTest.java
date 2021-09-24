@@ -71,24 +71,123 @@ public class CryptorResponsePluginTest {
         this.ruleData = new RuleData();
         this.ruleData.setSelectorId("test");
         this.ruleData.setName("test-cryptor-response-plugin");
-        this.ruleData.setHandle("{\"strategyName\":\"rsa\","
-                + "\"key\":\"MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALa36JRlLS4WVUqXeS/6AF2xlvUZ+eJg/ejcrlrMafygrHA6HhUnDe"
-                + "7knNy8CpNeMKwuF9Pn0g8ZtJDD074DQcsCAwEAAQ\\u003d\\u003d\","
-                + "\"fieldNames\":\"data\"}");
         this.cryptorResponsePluginDataHandler = new CryptorResponsePluginDataHandler();
         this.chain = mock(ShenyuPluginChain.class);
         this.selectorData = mock(SelectorData.class);
         this.cryptorResponsePlugin = new CryptorResponsePlugin();
+    }
+
+    @Test
+    public void encryptTest() {
         MockServerHttpRequest request = MockServerHttpRequest
                 .post("/test")
                 .remoteAddress(new InetSocketAddress(8090))
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body("{\"code\":200,\"msg\":\"success\",\"data\":[\"test\"]}");
         this.exchange = spy(MockServerWebExchange.from(request));
+        this.ruleData.setHandle("{\"strategyName\":\"rsa\","
+                + "\"fieldNames\":\"data\","
+                + "\"decryptKey\":\"MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAtrfolGUtLhZVSpd5L/oAXbGW9Rn54mD96Ny"
+                + "uWsxp/KCscDoeFScN7uSc3LwKk14wrC4X0+fSDxm0kMPTvgNBywIDAQABAkBFPvt4ycNOlQ4r364A3akn2PbR2s9V2NZBW"
+                + "ukE5jVAlOvgCn6L/+tsVDSQgeVtOPd6rwM2a24iASDsNEbnVrwBAiEA34DwAmsa1phE5aGKM1bPHJiGgM8yolIYDWBaBCu"
+                + "PTgECIQDRSOWA8rLJWP+Vijm/QB8C41Gw1V7WXC2Kuj07Jv5nywIgTDKCIODw8m5RNtRe8GfNDlu1p158TbidOJo7tiY/og"
+                + "ECIQCaj0tvP83qBWA8AClFpQVCDL936RxxEwJPQduWo+WeoQIhAN7HKEW0E97il2RvCsgeArdt83WjZh7OhMhW6MLPrMjs\","
+                + "\"encryptKey\":\"MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALa36JRlLS4WVUqXeS/6AF2xlvUZ+eJg/ejcrlrMafygrHA6Hh"
+                + "UnDe7knNy8CpNeMKwuF9Pn0g8ZtJDD074DQcsCAwEAAQ\\u003d\\u003d\","
+                + "\"way\":\"encrypt\""
+                + "}\n");
+        ServerWebExchange.Builder builder = mock(ServerWebExchange.Builder.class);
+        when(exchange.mutate()).thenReturn(builder);
+        when(builder.response(any(ResponseDecorator.class))).thenReturn(builder);
+        when(builder.build()).thenReturn(exchange);
+        when(chain.execute(any())).thenReturn(Mono.empty());
+        cryptorResponsePluginDataHandler.handlerRule(ruleData);
+        ServerWebExchange exchangeNormal = generateServerWebExchange();
+        Mono<Void> result = cryptorResponsePlugin.doExecute(exchangeNormal, chain, selectorData, ruleData);
+        StepVerifier.create(result).expectSubscription().verifyComplete();
     }
 
     @Test
-    public void doExecuteTest() {
+    public void decryptTest() {
+        MockServerHttpRequest request = MockServerHttpRequest
+                .post("/test")
+                .remoteAddress(new InetSocketAddress(8090))
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body("{\"code\":200,\"msg\":\"success\",\"data\":"
+                        + "\"kYPZgOAR2pEipskl5WURW/r3CMxNQJwbs4jbTAOfZNV39L4WkaTOqAeolV+rlKCKiXKvhfHWaxQOTMm9hQBxLA==\"}");
+        this.exchange = spy(MockServerWebExchange.from(request));
+        this.ruleData.setHandle("{\"strategyName\":\"rsa\","
+                + "\"fieldNames\":\"data\","
+                + "\"decryptKey\":\"MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAtrfolGUtLhZVSpd5L/oAXbGW9Rn54mD96Ny"
+                + "uWsxp/KCscDoeFScN7uSc3LwKk14wrC4X0+fSDxm0kMPTvgNBywIDAQABAkBFPvt4ycNOlQ4r364A3akn2PbR2s9V2NZBW"
+                + "ukE5jVAlOvgCn6L/+tsVDSQgeVtOPd6rwM2a24iASDsNEbnVrwBAiEA34DwAmsa1phE5aGKM1bPHJiGgM8yolIYDWBaBCu"
+                + "PTgECIQDRSOWA8rLJWP+Vijm/QB8C41Gw1V7WXC2Kuj07Jv5nywIgTDKCIODw8m5RNtRe8GfNDlu1p158TbidOJo7tiY/og"
+                + "ECIQCaj0tvP83qBWA8AClFpQVCDL936RxxEwJPQduWo+WeoQIhAN7HKEW0E97il2RvCsgeArdt83WjZh7OhMhW6MLPrMjs\","
+                + "\"encryptKey\":\"MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALa36JRlLS4WVUqXeS/6AF2xlvUZ+eJg/ejcrlrMafygrHA6Hh"
+                + "UnDe7knNy8CpNeMKwuF9Pn0g8ZtJDD074DQcsCAwEAAQ\\u003d\\u003d\","
+                + "\"way\":\"decrypt\""
+                + "}\n");
+        ServerWebExchange.Builder builder = mock(ServerWebExchange.Builder.class);
+        when(exchange.mutate()).thenReturn(builder);
+        when(builder.response(any(ResponseDecorator.class))).thenReturn(builder);
+        when(builder.build()).thenReturn(exchange);
+        when(chain.execute(any())).thenReturn(Mono.empty());
+        cryptorResponsePluginDataHandler.handlerRule(ruleData);
+        ServerWebExchange exchangeNormal = generateServerWebExchange();
+        Mono<Void> result = cryptorResponsePlugin.doExecute(exchangeNormal, chain, selectorData, ruleData);
+        StepVerifier.create(result).expectSubscription().verifyComplete();
+    }
+
+    @Test
+    public void multiJsonEncryptTest() {
+        MockServerHttpRequest request = MockServerHttpRequest
+                .post("/test")
+                .remoteAddress(new InetSocketAddress(8090))
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body("{\"code\":200,\"msg\":\"success\",\"data\":{\"shenyu\":\"test\"}}");
+        this.exchange = spy(MockServerWebExchange.from(request));
+        this.ruleData.setHandle("{\"strategyName\":\"rsa\","
+                + "\"fieldNames\":\"data.shenyu\","
+                + "\"decryptKey\":\"MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAtrfolGUtLhZVSpd5L/oAXbGW9Rn54mD96Ny"
+                + "uWsxp/KCscDoeFScN7uSc3LwKk14wrC4X0+fSDxm0kMPTvgNBywIDAQABAkBFPvt4ycNOlQ4r364A3akn2PbR2s9V2NZBW"
+                + "ukE5jVAlOvgCn6L/+tsVDSQgeVtOPd6rwM2a24iASDsNEbnVrwBAiEA34DwAmsa1phE5aGKM1bPHJiGgM8yolIYDWBaBCu"
+                + "PTgECIQDRSOWA8rLJWP+Vijm/QB8C41Gw1V7WXC2Kuj07Jv5nywIgTDKCIODw8m5RNtRe8GfNDlu1p158TbidOJo7tiY/og"
+                + "ECIQCaj0tvP83qBWA8AClFpQVCDL936RxxEwJPQduWo+WeoQIhAN7HKEW0E97il2RvCsgeArdt83WjZh7OhMhW6MLPrMjs\","
+                + "\"encryptKey\":\"MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALa36JRlLS4WVUqXeS/6AF2xlvUZ+eJg/ejcrlrMafygrHA6Hh"
+                + "UnDe7knNy8CpNeMKwuF9Pn0g8ZtJDD074DQcsCAwEAAQ\\u003d\\u003d\","
+                + "\"way\":\"encrypt\""
+                + "}\n");
+        ServerWebExchange.Builder builder = mock(ServerWebExchange.Builder.class);
+        when(exchange.mutate()).thenReturn(builder);
+        when(builder.response(any(ResponseDecorator.class))).thenReturn(builder);
+        when(builder.build()).thenReturn(exchange);
+        when(chain.execute(any())).thenReturn(Mono.empty());
+        cryptorResponsePluginDataHandler.handlerRule(ruleData);
+        ServerWebExchange exchangeNormal = generateServerWebExchange();
+        Mono<Void> result = cryptorResponsePlugin.doExecute(exchangeNormal, chain, selectorData, ruleData);
+        StepVerifier.create(result).expectSubscription().verifyComplete();
+    }
+
+    @Test
+    public void multiJsonDecryptTest() {
+        MockServerHttpRequest request = MockServerHttpRequest
+                .post("/test")
+                .remoteAddress(new InetSocketAddress(8090))
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body("{\"code\":200,\"msg\":\"success\",\"data\":{\"shenyu\":"
+                        + "\"kYPZgOAR2pEipskl5WURW/r3CMxNQJwbs4jbTAOfZNV39L4WkaTOqAeolV+rlKCKiXKvhfHWaxQOTMm9hQBxLA==\"}}");
+        this.exchange = spy(MockServerWebExchange.from(request));
+        this.ruleData.setHandle("{\"strategyName\":\"rsa\","
+                + "\"fieldNames\":\"data.shenyu\","
+                + "\"decryptKey\":\"MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAtrfolGUtLhZVSpd5L/oAXbGW9Rn54mD96Ny"
+                + "uWsxp/KCscDoeFScN7uSc3LwKk14wrC4X0+fSDxm0kMPTvgNBywIDAQABAkBFPvt4ycNOlQ4r364A3akn2PbR2s9V2NZBW"
+                + "ukE5jVAlOvgCn6L/+tsVDSQgeVtOPd6rwM2a24iASDsNEbnVrwBAiEA34DwAmsa1phE5aGKM1bPHJiGgM8yolIYDWBaBCu"
+                + "PTgECIQDRSOWA8rLJWP+Vijm/QB8C41Gw1V7WXC2Kuj07Jv5nywIgTDKCIODw8m5RNtRe8GfNDlu1p158TbidOJo7tiY/og"
+                + "ECIQCaj0tvP83qBWA8AClFpQVCDL936RxxEwJPQduWo+WeoQIhAN7HKEW0E97il2RvCsgeArdt83WjZh7OhMhW6MLPrMjs\","
+                + "\"encryptKey\":\"MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALa36JRlLS4WVUqXeS/6AF2xlvUZ+eJg/ejcrlrMafygrHA6Hh"
+                + "UnDe7knNy8CpNeMKwuF9Pn0g8ZtJDD074DQcsCAwEAAQ\\u003d\\u003d\","
+                + "\"way\":\"decrypt\""
+                + "}\n");
         ServerWebExchange.Builder builder = mock(ServerWebExchange.Builder.class);
         when(exchange.mutate()).thenReturn(builder);
         when(builder.response(any(ResponseDecorator.class))).thenReturn(builder);

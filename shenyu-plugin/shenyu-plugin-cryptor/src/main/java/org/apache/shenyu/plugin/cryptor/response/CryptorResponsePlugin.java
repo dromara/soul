@@ -17,12 +17,10 @@
 
 package org.apache.shenyu.plugin.cryptor.response;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import org.apache.shenyu.common.constant.Constants;
 import org.apache.shenyu.common.dto.RuleData;
 import org.apache.shenyu.common.dto.SelectorData;
-import org.apache.shenyu.common.dto.convert.rule.impl.CryptorResponseRuleHandle;
+import org.apache.shenyu.common.dto.convert.rule.impl.CryptorRuleHandle;
 import org.apache.shenyu.common.enums.PluginEnum;
 import org.apache.shenyu.plugin.api.ShenyuPluginChain;
 import org.apache.shenyu.plugin.api.result.ShenyuResultEnum;
@@ -47,7 +45,6 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
@@ -62,7 +59,7 @@ public class CryptorResponsePlugin extends AbstractShenyuPlugin {
     @Override
     @SuppressWarnings("unchecked")
     protected Mono<Void> doExecute(final ServerWebExchange exchange, final ShenyuPluginChain chain, final SelectorData selector, final RuleData rule) {
-        CryptorResponseRuleHandle ruleHandle = CryptorResponsePluginDataHandler.CACHED_HANDLE.get().obtainHandle(CacheKeyUtils.INST.getKey(rule));
+        CryptorRuleHandle ruleHandle = CryptorResponsePluginDataHandler.CACHED_HANDLE.get().obtainHandle(CacheKeyUtils.INST.getKey(rule));
         if (Objects.isNull(ruleHandle)) {
             LOG.error("Cryptor response rule configuration is null :{}", rule.getId());
             return chain.execute(exchange);
@@ -80,7 +77,7 @@ public class CryptorResponsePlugin extends AbstractShenyuPlugin {
         }
         Mono<String> mono = clientResponse.bodyToMono(String.class)
                 .flatMap(originalBody ->
-                        strategyMatch(originalBody, ruleHandle));
+                        strategyMatch(originalBody, ruleHandle, exchange));
         BodyInserter<Mono<String>, ReactiveHttpOutputMessage> bodyInserter = BodyInserters.fromPublisher(mono, String.class);
         return bodyInserter.insert(outputMessage, new BodyInserterContext())
                 .then(Mono.defer(() -> {
@@ -99,21 +96,16 @@ public class CryptorResponsePlugin extends AbstractShenyuPlugin {
     public String named() {
         return PluginEnum.CRYPTOR_RESPONSE.getName();
     }
-    
-    @SuppressWarnings("rawtypes")
-    private Mono strategyMatch(final String originalBody, final CryptorResponseRuleHandle ruleHandle) {
-        AtomicInteger initDeep = new AtomicInteger();
-        initDeep.set(0);
+
+    private Mono strategyMatch(final String originalBody, final CryptorRuleHandle ruleHandle, final ServerWebExchange exchange) {
         String parseBody = JsonUtil.parser(originalBody, ruleHandle.getFieldNames());
         if (parseBody == null) {
             return Mono.just(originalBody);
         }
-        String modifiedBody = CryptorStrategyFactory.encrypt(ruleHandle.getStrategyName(), ruleHandle.getKey(), parseBody);
-        JsonElement je = new JsonParser().parse(originalBody);
-        JsonElement resultJe = JsonUtil.replaceJsonNode(je,
-                initDeep,
-                modifiedBody,
-                Arrays.asList(ruleHandle.getFieldNames().split("\\.")));
-        return Mono.just(resultJe.toString());
+        String modifiedBody = CryptorStrategyFactory.match(ruleHandle, parseBody);
+        if (modifiedBody == null) {
+            return HttpUtil.fail(ruleHandle.getWay(), exchange);
+        }
+        return HttpUtil.success(originalBody, modifiedBody, ruleHandle.getWay(), ruleHandle.getFieldNames());
     }
 }
