@@ -58,15 +58,6 @@ public final class ShenyuPluginPathBuilder {
     }
     
     private static File buildPluginJarPath() {
-        String classResourcePath = String.join("", ShenyuPluginPathBuilder.class.getName().replaceAll("\\.", "/"), ".class");
-        URL resource = ClassLoader.getSystemClassLoader().getResource(classResourcePath);
-        if (null != resource) {
-            String url = resource.toString();
-            LOG.debug("The class location is {}.", url);
-            int existFileInJarIndex = url.indexOf('!');
-            boolean isInJar = existFileInJarIndex > -1;
-            return isInJar ? getFileInJar(url, existFileInJarIndex) : getFileInResource(url, classResourcePath);
-        }
         URL url = ShenyuPluginPathBuilder.class.getResource(DEFAULT_EXT_PLUGIN_PATH);
         return Optional.ofNullable(url).map(u -> new File(u.getFile())).orElse(new File(DEFAULT_EXT_PLUGIN_PATH));
     }
