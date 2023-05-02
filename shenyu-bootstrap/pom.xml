@@ -64,6 +64,14 @@
         </dependency>
         <!-- shenyu waf plugin end-->
 
+        <!-- shenyu xss plugin starter-->
+        <dependency>
+            <groupId>org.apache.shenyu</groupId>
+            <artifactId>shenyu-spring-boot-starter-plugin-xss</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- shenyu xss plugin end-->
+
         <!-- shenyu ratelimiter plugin start-->
         <dependency>
             <groupId>org.apache.shenyu</groupId>

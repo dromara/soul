@@ -75,7 +75,12 @@ public enum PluginEnum {
      * Waf plugin enum.
      */
     WAF(50, 0, "waf"),
-    
+
+    /**
+     * Xss plugin enum.
+     */
+    XSS(55, 0, "xss"),
+
     /**
      * Rate limiter plugin enum.
      */

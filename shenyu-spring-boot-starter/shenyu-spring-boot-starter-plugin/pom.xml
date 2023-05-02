@@ -70,5 +70,6 @@
         <module>shenyu-spring-boot-starter-plugin-casdoor</module>
         <module>shenyu-spring-boot-starter-plugin-key-auth</module>
         <module>shenyu-spring-boot-starter-plugin-brpc</module>
+        <module>shenyu-spring-boot-starter-plugin-xss</module>
     </modules>
 </project>
