@@ -182,11 +182,11 @@ public class SpringMvcClientEventListener extends AbstractContextRefreshedEventL
                                 final Method method, final String superPath) {
         final RequestMapping requestMapping = AnnotatedElementUtils.findMergedAnnotation(method, RequestMapping.class);
         ShenyuSpringMvcClient methodShenyuClient = AnnotatedElementUtils.findMergedAnnotation(method, ShenyuSpringMvcClient.class);
-        methodShenyuClient = Objects.isNull(methodShenyuClient) ? beanShenyuClient : methodShenyuClient;
+        ShenyuSpringMvcClient shenyuClient = Objects.isNull(methodShenyuClient) ? beanShenyuClient : methodShenyuClient;
         // the result of ReflectionUtils#getUniqueDeclaredMethods contains method such as hashCode, wait, toSting
         // add Objects.nonNull(requestMapping) to make sure not register wrong method
-        if (Objects.nonNull(methodShenyuClient) && Objects.nonNull(requestMapping)) {
-            final MetaDataRegisterDTO metaData = buildMetaDataDTO(bean, methodShenyuClient,
+        if (Objects.nonNull(shenyuClient) && Objects.nonNull(requestMapping)) {
+            final MetaDataRegisterDTO metaData = buildMetaDataDTO(bean, shenyuClient,
                     buildApiPath(method, superPath, methodShenyuClient), clazz, method);
             getPublisher().publishEvent(metaData);
             getMetaDataMap().put(method, metaData);
@@ -197,7 +197,7 @@ public class SpringMvcClientEventListener extends AbstractContextRefreshedEventL
     protected String buildApiPath(final Method method, final String superPath,
                                   @NonNull final ShenyuSpringMvcClient methodShenyuClient) {
         String contextPath = getContextPath();
-        if (StringUtils.isNotBlank(methodShenyuClient.path())) {
+        if (Objects.nonNull(methodShenyuClient) && StringUtils.isNotBlank(methodShenyuClient.path())) {
             return pathJoin(contextPath, superPath, methodShenyuClient.path());
         }
         final String path = getPathByMethod(method);
