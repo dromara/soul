@@ -19,3 +19,4 @@ hash=org.apache.shenyu.loadbalancer.spi.HashLoadBalancer
 leastActive=org.apache.shenyu.loadbalancer.spi.LeastActiveLoadBalance
 p2c=org.apache.shenyu.loadbalancer.spi.P2cLoadBalancer
 shortestResponse=org.apache.shenyu.loadbalancer.spi.ShortestResponseLoadBalancer
+peakEWMA=org.apache.shenyu.loadbalancer.spi.PeakEWMALoadBalancer
