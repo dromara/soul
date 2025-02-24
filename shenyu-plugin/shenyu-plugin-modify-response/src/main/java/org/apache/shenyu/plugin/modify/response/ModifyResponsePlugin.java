@@ -162,7 +162,7 @@ public class ModifyResponsePlugin extends AbstractShenyuPlugin {
                 this.ruleHandle.getAddBodyKeys().forEach(info -> context.put(info.getPath(), info.getKey(), info.getValue()));
             }
             if (CollectionUtils.isNotEmpty(this.ruleHandle.getReplaceBodyKeys())) {
-                this.ruleHandle.getReplaceBodyKeys().forEach(info -> context.renameKey(info.getPath(), info.getKey(), info.getValue()));
+                this.ruleHandle.getReplaceBodyKeys().forEach(info -> context.put(info.getPath(), info.getKey(), info.getValue()));
             }
             if (CollectionUtils.isNotEmpty(this.ruleHandle.getRemoveBodyKeys())) {
                 this.ruleHandle.getRemoveBodyKeys().forEach(context::delete);

@@ -67,7 +67,7 @@ public interface Operator {
         DocumentContext context = JsonPath.parse(jsonValue);
         operation(context, paramMappingRuleHandle);
         if (!CollectionUtils.isEmpty(paramMappingRuleHandle.getReplaceParameterKeys())) {
-            paramMappingRuleHandle.getReplaceParameterKeys().forEach(info -> context.renameKey(info.getPath(), info.getKey(), info.getValue()));
+            paramMappingRuleHandle.getReplaceParameterKeys().forEach(info -> context.put(info.getPath(), info.getKey(), info.getValue()));
         }
         if (!CollectionUtils.isEmpty(paramMappingRuleHandle.getRemoveParameterKeys())) {
             paramMappingRuleHandle.getRemoveParameterKeys().forEach(context::delete);
