@@ -65,12 +65,13 @@ public class KafkaLogCollectClient extends AbstractLogConsumeClient<KafkaLogColl
      */
     @Override
     public void initClient0(@NonNull final KafkaLogCollectConfig.KafkaLogConfig config) {
-        if (Objects.isNull(config)
-                || StringUtils.isBlank(config.getBootstrapServer())
-                || StringUtils.isBlank(config.getTopic())) {
+        if (StringUtils.isBlank(config.getBootstrapServer()) || StringUtils.isBlank(config.getTopic())) {
             LOG.error("kafka props is empty. failed init kafka producer");
             return;
         }
+
+        LOG.info("isLog.get():{}", config);
+        LOG.info("isLog.get():{}", config.getTopic());
         String topic = config.getTopic();
         String nameserverAddress = config.getBootstrapServer();
 
@@ -122,6 +123,7 @@ public class KafkaLogCollectClient extends AbstractLogConsumeClient<KafkaLogColl
                     .map(apiConfig -> StringUtils.defaultIfBlank(apiConfig.getTopic(), topic)
                     ).orElse(topic);
             try {
+                LOG.info("logTopic:{}", logTopic);
                 producer.send(toProducerRecord(logTopic, log), (metadata, exception) -> {
                     if (Objects.nonNull(exception)) {
                         LOG.error("kafka push logs error", exception);

@@ -120,6 +120,9 @@ public class ShenyuClientRegisterDivideServiceImpl extends AbstractContextPathRe
                 .collect(Collectors.toList());
         final List<DivideUpstream> needToRemove = buildDivideUpstreamList(validUriList);
         List<DivideUpstream> existList = GsonUtils.getInstance().fromCurrentList(selectorDO.getHandle(), DivideUpstream.class);
+        if (CollectionUtils.isEmpty(existList)) {
+            return Constants.SUCCESS;
+        }
         existList.removeAll(needToRemove);
         final String handler = GsonUtils.getInstance().toJson(existList);
         selectorDO.setHandle(handler);
