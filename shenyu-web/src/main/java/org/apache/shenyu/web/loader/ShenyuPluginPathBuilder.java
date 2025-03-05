@@ -30,7 +30,7 @@ public final class ShenyuPluginPathBuilder {
 
     private static final String PLUGIN_PATH = "plugin-ext";
     
-    private static final String DEFAULT_EXT_PLUGIN_PATH = "/ext-lib/";
+    private static final String DEFAULT_EXT_PLUGIN_PATH = "ext-lib/";
 
     private ShenyuPluginPathBuilder() {
     }
