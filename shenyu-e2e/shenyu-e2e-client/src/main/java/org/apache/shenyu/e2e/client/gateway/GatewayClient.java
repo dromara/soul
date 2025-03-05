@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.shenyu.e2e.annotation.ShenYuGatewayClient;
 import org.apache.shenyu.e2e.client.BaseClient;
 import org.apache.shenyu.e2e.common.RequestLogConsumer;
@@ -178,6 +179,9 @@ public class GatewayClient extends BaseClient {
         List<SelectorCacheData> selectorDataList = new ArrayList<>();
         for (Map.Entry entry : s.entrySet()) {
             List list = (List) entry.getValue();
+            if (CollectionUtils.isEmpty(list)) {
+                continue;
+            }
             String json = MAPPER.writeValueAsString(list.get(0));
             SelectorCacheData selectorData = MAPPER.readValue(json, SelectorCacheData.class);
             selectorDataList.add(selectorData);

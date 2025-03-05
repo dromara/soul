@@ -20,6 +20,9 @@
 SHENYU_TESTCASE_DIR=$(dirname "$(dirname "$(dirname "$(dirname "$0")")")")
 bash "${SHENYU_TESTCASE_DIR}"/k8s/script/storage/storage_init_mysql.sh
 
+# init ip
+export HOST_IP=$(hostname -I | awk '{print $1}')
+
 # init register center
 CUR_PATH=$(readlink -f "$(dirname "$0")")
 PRGDIR=$(dirname "$CUR_PATH")
@@ -35,15 +38,21 @@ for sync in "${SYNC_ARRAY[@]}"; do
   echo "[Start ${sync} synchronous] create shenyu-admin-${sync}.yml shenyu-bootstrap-${sync}.yml "
   docker compose -f "$SHENYU_TESTCASE_DIR"/compose/sync/shenyu-sync-"${sync}".yml up -d --quiet-pull
   sleep 30s
-  sh "$SHENYU_TESTCASE_DIR"/k8s/script/healthcheck.sh http://localhost:31095/actuator/health
   sh "$SHENYU_TESTCASE_DIR"/k8s/script/healthcheck.sh http://localhost:31195/actuator/health
-  docker compose -f "${PRGDIR}"/shenyu-examples-http-compose.yml up -d --quiet-pull
+  docker compose -f "${PRGDIR}"/shenyu-kafka-compose.yml up -d --quiet-pull
   sleep 30s
+  # 创建kafka topic
+  echo "create kafka topic shenyu-access-logging"
+  docker exec shenyu-kafka kafka-topics --create --topic shenyu-access-logging --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092
+
+#  docker compose -f "${PRGDIR}"/shenyu-examples-http-compose.yml up -d --quiet-pull
+#  sleep 30s
+  sh "$SHENYU_TESTCASE_DIR"/k8s/script/healthcheck.sh http://localhost:31095/actuator/health
   sh "$SHENYU_TESTCASE_DIR"/k8s/script/healthcheck.sh http://localhost:31189/actuator/health
   sleep 10s
   docker ps -a
   ## run e2e-test
-  ./mvnw -B -f ./shenyu-e2e/pom.xml -pl shenyu-e2e-case/shenyu-e2e-case-http -am test
+  ./mvnw -B -f ./shenyu-e2e/pom.xml -pl shenyu-e2e-case/shenyu-e2e-case-logging-kafka -am test
   # shellcheck disable=SC2181
   if (($?)); then
     echo "${sync}-sync-e2e-test failed"
@@ -54,12 +63,15 @@ for sync in "${SYNC_ARRAY[@]}"; do
     echo "shenyu-bootstrap log:"
     echo "------------------"
     docker compose -f "$SHENYU_TESTCASE_DIR"/compose/sync/shenyu-sync-"${sync}".yml logs shenyu-bootstrap
-    echo "shenyu-examples-http log:"
+    echo "shenyu-kafka log:"
     echo "------------------"
-    docker compose -f "${PRGDIR}"/shenyu-examples-http-compose.yml logs shenyu-examples-http
+    docker compose -f "${PRGDIR}"/shenyu-kafka-compose.yml logs
+#    echo "kafka-console-consumer log:"
+    timeout 50s docker exec shenyu-kafka kafka-console-consumer --topic shenyu-access-logging --bootstrap-server localhost:9092 --from-beginning
     exit 1
   fi
   docker compose -f "$SHENYU_TESTCASE_DIR"/compose/sync/shenyu-sync-"${sync}".yml down
-  docker compose -f "${PRGDIR}"/shenyu-examples-http-compose.yml down
+  docker compose -f "${PRGDIR}"/shenyu-kafka-compose.yml down
+#  docker compose -f "${PRGDIR}"/shenyu-examples-http-compose.yml down
   echo "[Remove ${sync} synchronous] delete shenyu-admin-${sync}.yml shenyu-bootstrap-${sync}.yml "
 done

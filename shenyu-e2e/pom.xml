@@ -58,6 +58,7 @@
         <guava.version>32.0.0-jre</guava.version>
         <commons-collection.verion>4.4</commons-collection.verion>
         <websocket.version>1.5.1</websocket.version>
+        <kafka-clients.version>3.7.1</kafka-clients.version>
     </properties>
 
     <modules>

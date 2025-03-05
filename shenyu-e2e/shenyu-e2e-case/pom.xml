@@ -32,6 +32,8 @@
         <module>shenyu-e2e-case-cluster</module>
         <module>shenyu-e2e-case-storage</module>
         <module>shenyu-e2e-case-http</module>
+        <module>shenyu-e2e-case-logging-kafka</module>
+        <module>shenyu-e2e-case-logging-rocketmq</module>
         <module>shenyu-e2e-case-spring-cloud</module>
         <module>shenyu-e2e-case-apache-dubbo</module>
         <module>shenyu-e2e-case-sofa</module>

@@ -1,0 +1,74 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+version: '3.9'
+
+services:
+  shenyu-zk:
+    container_name: shenyu-zk
+    image: zookeeper:latest
+#    network_mode: "host"
+    ports:
+      - "2181:2181"
+    restart: always
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOO_PORT=2181
+    networks:
+      - shenyu
+  
+  shenyu-kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: shenyu-kafka
+    extra_hosts:
+      - "shenyu-kafka:127.0.0.1"
+    depends_on:
+      - shenyu-zk
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: shenyu-zk:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://shenyu-kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - shenyu
+  
+  shenyu-examples-http:
+    image: shenyu-examples-http:latest
+    container_name: shenyu-examples-http
+    environment:
+      - shenyu.register.serverLists=http://shenyu-admin:9095
+    ports:
+      - "31189:8189"
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -q -O - http://localhost:8189/actuator/health | grep UP || exit 1" ]
+      interval: 10s
+      timeout: 2s
+      retries: 3
+      start_period: 10s
+    restart: always
+    networks:
+      - shenyu
+
+networks:
+  shenyu:
+    name: shenyu
+    driver: bridge
+    external: true

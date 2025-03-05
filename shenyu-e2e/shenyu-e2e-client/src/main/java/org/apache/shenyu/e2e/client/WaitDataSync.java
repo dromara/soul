@@ -83,7 +83,7 @@ public class WaitDataSync {
         Map<String, Integer> pluginMap = gatewayClient.getPlugins();
         int retryNum = 0;
         boolean existPlugin = false;
-        while (!existPlugin && retryNum < 5) {
+        while (!existPlugin && retryNum < 10) {
             for (String plugin : pluginMap.keySet()) {
                 if (plugin.startsWith(pluginClass)) {
                     existPlugin = true;

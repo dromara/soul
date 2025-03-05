@@ -24,5 +24,13 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>shenyu-e2e-case-http</artifactId>
+    <artifactId>shenyu-e2e-case-logging-rocketmq</artifactId>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>4.9.3</version>
+        </dependency>
+    </dependencies>
 </project>

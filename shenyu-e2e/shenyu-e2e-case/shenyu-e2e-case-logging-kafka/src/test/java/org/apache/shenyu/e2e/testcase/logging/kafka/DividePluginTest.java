@@ -15,26 +15,32 @@
  * limitations under the License.
  */
 
-package org.apache.shenyu.e2e.testcase.http;
+package org.apache.shenyu.e2e.testcase.logging.kafka;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import org.apache.shenyu.e2e.client.WaitDataSync;
 import org.apache.shenyu.e2e.client.admin.AdminClient;
 import org.apache.shenyu.e2e.client.gateway.GatewayClient;
+import org.apache.shenyu.e2e.constant.Constants;
 import org.apache.shenyu.e2e.engine.annotation.ShenYuScenario;
 import org.apache.shenyu.e2e.engine.annotation.ShenYuTest;
+import org.apache.shenyu.e2e.engine.scenario.specification.AfterEachSpec;
 import org.apache.shenyu.e2e.engine.scenario.specification.BeforeEachSpec;
 import org.apache.shenyu.e2e.engine.scenario.specification.CaseSpec;
 import org.apache.shenyu.e2e.enums.ServiceTypeEnum;
 import org.apache.shenyu.e2e.model.ResourcesData;
 import org.apache.shenyu.e2e.model.data.BindingData;
 import org.apache.shenyu.e2e.model.response.SelectorDTO;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static org.apache.shenyu.e2e.constant.Constants.SYS_DEFAULT_NAMESPACE_NAMESPACE_ID;
@@ -62,7 +68,9 @@ import static org.apache.shenyu.e2e.constant.Constants.SYS_DEFAULT_NAMESPACE_NAM
 public class DividePluginTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(DividePluginTest.class);
-
+    
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+    
     private List<String> selectorIds = Lists.newArrayList();
 
     @BeforeEach
@@ -88,20 +96,35 @@ public class DividePluginTest {
         spec.getWaiting().waitFor(gateway);
     }
 
-//    @AfterEach
-//    void after(final AdminClient client, final GatewayClient gateway, final AfterEachSpec spec) {
-//        spec.getDeleter().delete(client, selectorIds);
-//        spec.deleteWaiting().waitFor(gateway);
-//        selectorIds = Lists.newArrayList();
-//    }
-
+    @AfterEach
+    void after(final AdminClient client, final GatewayClient gateway, final AfterEachSpec spec) {
+        spec.getDeleter().delete(client, selectorIds);
+        spec.deleteWaiting().waitFor(gateway);
+        selectorIds = Lists.newArrayList();
+    }
 
     @BeforeAll
     void setup(final AdminClient adminClient, final GatewayClient gatewayClient) throws Exception {
         adminClient.login();
+        
         WaitDataSync.waitAdmin2GatewayDataSyncEquals(adminClient::listAllSelectors, gatewayClient::getSelectorCache, adminClient);
         WaitDataSync.waitAdmin2GatewayDataSyncEquals(adminClient::listAllMetaData, gatewayClient::getMetaDataCache, adminClient);
         WaitDataSync.waitAdmin2GatewayDataSyncEquals(adminClient::listAllRules, gatewayClient::getRuleCache, adminClient);
+        
+        Map<String, String> reqBody = new HashMap<>();
+        LOG.info("start loggingKafka plugin");
+        reqBody.put("pluginId", "33");
+        reqBody.put("name", "loggingKafka");
+        reqBody.put("enabled", "true");
+        reqBody.put("role", "Logging");
+        reqBody.put("sort", "180");
+        reqBody.put("namespaceId", Constants.SYS_DEFAULT_NAMESPACE_NAMESPACE_ID);
+        reqBody.put("config",
+                "{\"topic\":\"shenyu-access-logging\",\"bootstrapServer\":\"shenyu-kafka:29092\",\"sampleRate\":\"1\",\"maxResponseBody\":524288,\"maxRequestBody\":524288,\"compressAlg\":\"none\"}");
+        adminClient.changePluginStatus("1801816010882822171", reqBody);
+//        TimeUnit.SECONDS.sleep(5);
+//        Map<String, Integer> plugins = gatewayClient.getPlugins();
+        WaitDataSync.waitGatewayPluginUse(gatewayClient, "org.apache.shenyu.plugin.logging.kafka.LoggingKafkaPlugin");
     }
 
     @ShenYuScenario(provider = DividePluginCases.class)

@@ -218,6 +218,10 @@ jobs:
             script: e2e-cluster-jdbc-compose
           - case: shenyu-e2e-case-cluster
             script: e2e-cluster-zookeeper-compose
+          - case: shenyu-e2e-case-logging-rocketmq
+            script: e2e-logging-rocketmq-compose
+          - case: shenyu-e2e-case-logging-kafka
+            script: e2e-logging-kafka-compose
             
     steps:
       - uses: actions/checkout@v2

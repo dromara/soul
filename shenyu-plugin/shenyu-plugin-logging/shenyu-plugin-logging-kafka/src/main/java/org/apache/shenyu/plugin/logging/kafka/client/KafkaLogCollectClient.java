@@ -30,6 +30,7 @@ import org.apache.kafka.common.errors.AuthorizationException;
 import org.apache.kafka.common.errors.OutOfOrderSequenceException;
 import org.apache.kafka.common.errors.ProducerFencedException;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.apache.shenyu.common.utils.GsonUtils;
 import org.apache.shenyu.common.utils.JsonUtils;
 import org.apache.shenyu.plugin.logging.common.client.AbstractLogConsumeClient;
 import org.apache.shenyu.plugin.logging.common.entity.LZ4CompressData;
@@ -65,12 +66,13 @@ public class KafkaLogCollectClient extends AbstractLogConsumeClient<KafkaLogColl
      */
     @Override
     public void initClient0(@NonNull final KafkaLogCollectConfig.KafkaLogConfig config) {
-        if (Objects.isNull(config)
-                || StringUtils.isBlank(config.getBootstrapServer())
-                || StringUtils.isBlank(config.getTopic())) {
+        if (StringUtils.isBlank(config.getBootstrapServer()) || StringUtils.isBlank(config.getTopic())) {
             LOG.error("kafka props is empty. failed init kafka producer");
             return;
         }
+
+        LOG.info("initClient0:{}", GsonUtils.getInstance().toJson(config));
+        
         String topic = config.getTopic();
         String nameserverAddress = config.getBootstrapServer();
 
@@ -122,11 +124,14 @@ public class KafkaLogCollectClient extends AbstractLogConsumeClient<KafkaLogColl
                     .map(apiConfig -> StringUtils.defaultIfBlank(apiConfig.getTopic(), topic)
                     ).orElse(topic);
             try {
+                LOG.info("logTopic:{}, log:{}", logTopic, log);
                 producer.send(toProducerRecord(logTopic, log), (metadata, exception) -> {
+                    LOG.info("kafka push logs metadata:{}", GsonUtils.getInstance().toJson(metadata));
                     if (Objects.nonNull(exception)) {
                         LOG.error("kafka push logs error", exception);
                     }
                 });
+                producer.flush();
             } catch (Exception e) {
                 LOG.error("kafka push logs error", e);
             }
