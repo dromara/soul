@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.apache.shenyu.admin.mapper.InstanceInfoMapper">
+    <resultMap id="BaseResultMap" type="org.apache.shenyu.admin.model.entity.InstanceInfoDO">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="date_created" jdbcType="TIMESTAMP" property="dateCreated"/>
+        <result column="date_updated" jdbcType="TIMESTAMP" property="dateUpdated"/>
+        <result column="instance_ip" jdbcType="VARCHAR" property="instanceIp"/>
+        <result column="instance_type" jdbcType="VARCHAR" property="instanceType"/>
+        <result column="instance_info" jdbcType="VARCHAR" property="instanceInfo"/>
+        <result column="namespace_id" jdbcType="VARCHAR" property="namespaceId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        date_created,
+        date_updated,
+        instance_ip,
+        instance_type,
+        instance_info,
+        namespace_id,
+        date_created,
+        date_updated
+    </sql>
+    
+    <update id="updateById">
+        UPDATE
+          instance_info
+        SET
+          date_updated = #{dateUpdated, jdbcType=TIMESTAMP},
+          instance_ip = #{instanceIp, jdbcType=VARCHAR},
+          instance_type = #{instanceType, jdbcType=VARCHAR},
+          instance_info = #{instanceInfo, jdbcType=VARCHAR}
+        WHERE
+          id = #{id, jdbcType=VARCHAR}
+    </update>
+    
+    <select id="findAllByNamespaceId" resultMap="BaseResultMap">
+        SElECT
+        <include refid="Base_Column_List"/>
+        FROM instance_info
+        WHERE namespace_id = #{namespaceId, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SElECT
+        <include refid="Base_Column_List"/>
+        FROM instance_info
+    </select>
+
+    <select id="existed" resultType="java.lang.Boolean">
+        SElECT true
+        FROM instance_info
+        WHERE id = #{id}
+        LIMIT 1
+    </select>
+    
+    <select id="selectByQuery" resultMap="BaseResultMap">
+        SElECT
+        <include refid="Base_Column_List"/>
+        FROM instance_info
+        WHERE namespace_id = #{namespaceId}
+        <if test="instanceIp != null and instanceIp != ''">
+            AND instance_ip like '%#{instanceIp}%'
+        </if>
+        <if test="instanceType != null and instanceType != ''">
+            AND instance_type = #{instanceType}
+        </if>
+    </select>
+    <select id="selectById" resultType="org.apache.shenyu.admin.model.entity.InstanceInfoDO">
+        SElECT
+        <include refid="Base_Column_List"/>
+        FROM instance_info
+        WHERE id = #{id}
+    </select>
+    
+    <insert id="insert" parameterType="org.apache.shenyu.admin.model.entity.InstanceInfoDO">
+        INSERT INTO instance_info
+        (id,
+        date_created,
+        date_updated,
+        instance_ip,
+        instance_type,
+        instance_info,
+        namespace_id)
+        VALUES
+        (#{id,jdbcType=VARCHAR},
+        #{dateCreated,jdbcType=TIMESTAMP},
+        #{dateUpdated,jdbcType=TIMESTAMP},
+        #{instanceIp,jdbcType=VARCHAR},
+        #{instanceType,jdbcType=VARCHAR},
+        #{instanceInfo,jdbcType=VARCHAR},
+        #{namespaceId,jdbcType=TINYINT})
+    </insert>
+
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM instance_info
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+</mapper>

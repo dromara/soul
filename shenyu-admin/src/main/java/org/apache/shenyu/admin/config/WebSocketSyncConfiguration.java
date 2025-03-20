@@ -18,6 +18,7 @@
 package org.apache.shenyu.admin.config;
 
 import org.apache.shenyu.admin.config.properties.WebsocketSyncProperties;
+import org.apache.shenyu.admin.disruptor.RegisterClientServerDisruptorPublisher;
 import org.apache.shenyu.admin.listener.DataChangedListener;
 import org.apache.shenyu.admin.listener.websocket.WebsocketCollector;
 import org.apache.shenyu.admin.listener.websocket.WebsocketDataChangedListener;
@@ -50,12 +51,15 @@ public class WebSocketSyncConfiguration {
     /**
      * Websocket collector.
      *
+     * @param publisher the register client server disruptor publisher
      * @return the websocket collector
      */
     @Bean
     @ConditionalOnMissingBean(WebsocketCollector.class)
-    public WebsocketCollector websocketCollector() {
-        return new WebsocketCollector();
+    public WebsocketCollector websocketCollector(final RegisterClientServerDisruptorPublisher publisher) {
+        WebsocketCollector websocketCollector = new WebsocketCollector();
+        websocketCollector.setPublisher(publisher);
+        return websocketCollector;
     }
 
     /**

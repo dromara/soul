@@ -15,40 +15,31 @@
  * limitations under the License.
  */
 
-package org.apache.shenyu.register.common.type;
+package org.apache.shenyu.common.constant;
 
 /**
- * The enum Data type enum.
+ * instance type constants.
  */
-public enum DataType {
+public class InstanceTypeConstants {
     
     /**
-     * Meta data data type enum.
+     * The constant bootstrapInstanceInfo.
      */
-    META_DATA,
+    public static final String BOOTSTRAP_INSTANCE_INFO = "bootstrapInstanceInfo";
     
     /**
-     * Uri data type enum.
+     * The constant clientInstanceInfo.
      */
-    URI,
-
-    /**
-     * Api doc type enum.
-     */
-    API_DOC,
-
-    /**
-     * Heartbeat type enum.
-     */
-    HEARTBEAT,
-
-    /**
-     * Discovery config type enum.
-     */
-    DISCOVERY_CONFIG,
+    public static final String CLIENT_INSTANCE_INFO = "clientInstanceInfo";
     
     /**
-     * Instance info type enum.
+     * The constant bootstrapInstanceType.
      */
-    INSTANCE_INFO,
+    public static final String BOOTSTRAP_INSTANCE_TYPE = "bootstrap";
+    
+    /**
+     * The constant clientInstanceInfo.
+     */
+    public static final String CLIENT_INSTANCE_TYPE = "client";
+    
 }

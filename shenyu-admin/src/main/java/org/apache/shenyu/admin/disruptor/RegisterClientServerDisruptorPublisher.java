@@ -20,10 +20,12 @@ package org.apache.shenyu.admin.disruptor;
 import org.apache.shenyu.admin.disruptor.executor.RegisterServerConsumerExecutor.RegisterServerExecutorFactory;
 import org.apache.shenyu.admin.disruptor.subscriber.ApiDocExecutorSubscriber;
 import org.apache.shenyu.admin.disruptor.subscriber.DiscoveryConfigRegisterExecutorSubscriber;
+import org.apache.shenyu.admin.disruptor.subscriber.InstanceInfoRegisterExecutorSubscriber;
 import org.apache.shenyu.admin.disruptor.subscriber.MetadataExecutorSubscriber;
 import org.apache.shenyu.admin.disruptor.subscriber.URIRegisterExecutorSubscriber;
 import org.apache.shenyu.admin.register.ShenyuClientServerRegisterPublisher;
 import org.apache.shenyu.admin.service.DiscoveryService;
+import org.apache.shenyu.admin.service.InstanceInfoService;
 import org.apache.shenyu.admin.service.register.ShenyuClientRegisterService;
 import org.apache.shenyu.disruptor.DisruptorProviderManage;
 import org.apache.shenyu.disruptor.provider.DisruptorProvider;
@@ -57,13 +59,15 @@ public class RegisterClientServerDisruptorPublisher implements ShenyuClientServe
      *
      * @param shenyuClientRegisterService the shenyu client register service
      * @param discoveryService the discovery service
+     * @param instanceInfoService the instance info service
      */
-    public void start(final Map<String, ShenyuClientRegisterService> shenyuClientRegisterService, final DiscoveryService discoveryService) {
+    public void start(final Map<String, ShenyuClientRegisterService> shenyuClientRegisterService, final DiscoveryService discoveryService, final InstanceInfoService instanceInfoService) {
         RegisterServerExecutorFactory factory = new RegisterServerExecutorFactory();
         factory.addSubscribers(new URIRegisterExecutorSubscriber(shenyuClientRegisterService));
         factory.addSubscribers(new MetadataExecutorSubscriber(shenyuClientRegisterService));
         factory.addSubscribers(new ApiDocExecutorSubscriber(shenyuClientRegisterService));
         factory.addSubscribers(new DiscoveryConfigRegisterExecutorSubscriber(discoveryService));
+        factory.addSubscribers(new InstanceInfoRegisterExecutorSubscriber(instanceInfoService));
         providerManage = new DisruptorProviderManage<>(factory);
         providerManage.startup();
     }

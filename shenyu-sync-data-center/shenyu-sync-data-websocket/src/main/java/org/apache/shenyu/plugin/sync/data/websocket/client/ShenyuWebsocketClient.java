@@ -18,6 +18,7 @@
 package org.apache.shenyu.plugin.sync.data.websocket.client;
 
 import org.apache.shenyu.common.constant.Constants;
+import org.apache.shenyu.common.constant.InstanceTypeConstants;
 import org.apache.shenyu.common.constant.RunningModeConstants;
 import org.apache.shenyu.common.dto.WebsocketData;
 import org.apache.shenyu.common.enums.ConfigGroupEnum;
@@ -29,6 +30,7 @@ import org.apache.shenyu.common.timer.TimerTask;
 import org.apache.shenyu.common.timer.WheelTimerFactory;
 import org.apache.shenyu.common.utils.GsonUtils;
 import org.apache.shenyu.common.utils.JsonUtils;
+import org.apache.shenyu.common.utils.SystemInfoUtils;
 import org.apache.shenyu.plugin.sync.data.websocket.handler.WebsocketDataHandler;
 import org.apache.shenyu.sync.data.api.AuthDataSubscriber;
 import org.apache.shenyu.sync.data.api.DiscoveryUpstreamDataSubscriber;
@@ -216,12 +218,21 @@ public final class ShenyuWebsocketClient extends WebSocketClient {
                 this.reconnectBlocking();
             } else {
                 this.sendPing();
-//                send(DataEventTypeEnum.RUNNING_MODE.name());
+                send(getInstanceInfo());
                 LOG.debug("websocket send to [{}] ping message successful", this.getURI());
             }
         } catch (Exception e) {
             LOG.error("websocket connect is error :{}", e.getMessage());
         }
+    }
+    
+    private String getInstanceInfo() {
+        // Combine instance and host information
+        Map<String, Object> combinedInfo = Map.of(
+                InstanceTypeConstants.BOOTSTRAP_INSTANCE_INFO, SystemInfoUtils.getSystemInfo()
+        );
+        
+        return GsonUtils.getInstance().toJson(combinedInfo);
     }
     
     /**

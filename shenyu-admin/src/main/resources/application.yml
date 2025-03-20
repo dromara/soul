@@ -21,7 +21,7 @@ spring:
   application:
     name: shenyu-admin
   profiles:
-    active: h2
+    active: mysql
   thymeleaf:
     cache: true
     encoding: utf-8
@@ -239,8 +239,8 @@ logging:
   level:
     root: info
     org.springframework.boot: info
-    org.apache.ibatis: info
+    org.apache.ibatis: debug
     org.apache.shenyu.bonuspoint: info
     org.apache.shenyu.lottery: info
-    org.apache.shenyu: info
+    org.apache.shenyu: debug
 #    org.apache.shenyu.admin.utils.HttpUtils: debug

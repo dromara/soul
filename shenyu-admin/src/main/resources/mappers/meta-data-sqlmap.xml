@@ -46,7 +46,6 @@
         method_name,
         parameter_types,
         rpc_ext,
-        namespace_id,
         enabled,
         namespace_id
     </sql>

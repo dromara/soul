@@ -19,6 +19,7 @@ package org.apache.shenyu.admin.config;
 
 import org.apache.shenyu.admin.disruptor.RegisterClientServerDisruptorPublisher;
 import org.apache.shenyu.admin.service.DiscoveryService;
+import org.apache.shenyu.admin.service.InstanceInfoService;
 import org.apache.shenyu.admin.service.register.ShenyuClientRegisterService;
 import org.apache.shenyu.register.common.config.ShenyuRegisterCenterConfig;
 import org.junit.jupiter.api.Test;
@@ -50,9 +51,10 @@ public class RegisterCenterConfigurationTest {
     @Test
     public void testRegisterClientServerDisruptorPublisher() {
         DiscoveryService discoveryService = mock(DiscoveryService.class);
+        InstanceInfoService instanceInfoService = mock(InstanceInfoService.class);
         List<ShenyuClientRegisterService> shenyuClientRegisterService = new ArrayList<>();
         RegisterClientServerDisruptorPublisher publisher = registerCenterConfiguration
-                .registerClientServerDisruptorPublisher(shenyuClientRegisterService, discoveryService);
+                .registerClientServerDisruptorPublisher(shenyuClientRegisterService, discoveryService, instanceInfoService);
         assertNotNull(publisher);
     }
 }

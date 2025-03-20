@@ -22,6 +22,7 @@ import org.apache.shenyu.admin.lock.RegisterExecutionRepository;
 import org.apache.shenyu.admin.lock.impl.PlatformTransactionRegisterExecutionRepository;
 import org.apache.shenyu.admin.mapper.PluginMapper;
 import org.apache.shenyu.admin.service.DiscoveryService;
+import org.apache.shenyu.admin.service.InstanceInfoService;
 import org.apache.shenyu.admin.service.register.ShenyuClientRegisterService;
 import org.apache.shenyu.register.common.config.ShenyuRegisterCenterConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -57,13 +58,16 @@ public class RegisterCenterConfiguration {
      *
      * @param shenyuClientRegisterService the shenyu client register service
      * @param discoveryService the discovery service
+     * @param instanceInfoService the instance info service
      * @return the shenyu server register repository
      */
     @Bean
-    public RegisterClientServerDisruptorPublisher registerClientServerDisruptorPublisher(final List<ShenyuClientRegisterService> shenyuClientRegisterService, final DiscoveryService discoveryService) {
+    public RegisterClientServerDisruptorPublisher registerClientServerDisruptorPublisher(final List<ShenyuClientRegisterService> shenyuClientRegisterService,
+                                                                                         final DiscoveryService discoveryService,
+                                                                                         final InstanceInfoService instanceInfoService) {
         RegisterClientServerDisruptorPublisher publisher = RegisterClientServerDisruptorPublisher.getInstance();
         Map<String, ShenyuClientRegisterService> registerServiceMap = shenyuClientRegisterService.stream().collect(Collectors.toMap(ShenyuClientRegisterService::rpcType, Function.identity()));
-        publisher.start(registerServiceMap, discoveryService);
+        publisher.start(registerServiceMap, discoveryService, instanceInfoService);
         return publisher;
     }
     

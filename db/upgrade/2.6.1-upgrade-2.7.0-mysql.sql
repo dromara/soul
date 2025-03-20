@@ -239,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `scale_history`
     ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 
-CREATE TABLE `namespace_user_rel` (
+CREATE TABLE IF NOT EXISTS `namespace_user_rel` (
                                       `id` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'primary key',
                                       `namespace_id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'namespace_id',
                                       `user_id` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'user_id',
