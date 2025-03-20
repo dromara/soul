@@ -18,12 +18,13 @@
 @echo off & setlocal enabledelayedexpansion
 
 cd %~dp0
+cd ..
 
-set LOG_HOME=%~dp0/../logs
+set LOG_HOME=./logs
 
 set SERVER_NAME=ShenYu-Bootstrap
 
-set CLASS_PATH=".;..\conf;..\lib\*;..\ext-lib\*"
+set CLASS_PATH=".;.\conf;.\lib\*;.\ext-lib\*"
 
 set JAVA_OPTS=-server -Xmx4g -Xms4g -Xmn1g -Xss256k -XX:+DisableExplicitGC  -XX:LargePageSizeInBytes=128m
 for /f tokens^=2-5^ delims^=^" %%j in ('java -fullversion 2^>^&1') do set "version=%%j"
