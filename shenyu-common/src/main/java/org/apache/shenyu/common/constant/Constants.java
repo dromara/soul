@@ -947,6 +947,11 @@ public interface Constants {
     String PROMPT = "prompt";
 
     /**
+     * The constant messages.
+     */
+    String MESSAGES = "messages";
+
+    /**
      * The constant usedTokens.
      */
     String USED_TOKENS = "used-tokens";
@@ -962,9 +967,14 @@ public interface Constants {
     String CONTENT_ENCODING = "Content-Encoding";
     
     /**
-     * The constant ai_token_statistic_key_prefix.
+     * The constant Content.
      */
-    String AI_TOKEN_STATISTIC_KEY_PREFIX = "ai_token_statistic_";
+    String CONTENT = "content";
+    
+    /**
+     * The constant ROLE.
+     */
+    String ROLE = "role";
     
     /**
      * String q.

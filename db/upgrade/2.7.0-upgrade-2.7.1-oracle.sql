@@ -145,6 +145,97 @@ VALUES ('1722804548510507047', '50', 'stream', 'stream', 3, 1, 6, '{"defaultValu
 INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(plugin_handle(id)) */ INTO plugin_handle (id, plugin_id, field, label, data_type, type, sort, ext_obj, date_created, date_updated)
 VALUES ('1722804548510507048', '50', 'prompt', 'prompt', 2, 1, 7, '{"required":"0","rule":""}', to_timestamp('2024-01-02 17:20:50.233', 'YYYY-MM-DD HH24:MI:SS.FF3'), to_timestamp('2024-01-02 17:20:50.233', 'YYYY-MM-DD HH24:MI:SS.FF3'));
 
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(permission(id)) */ INTO permission (id, object_id, resource_id, date_created, date_updated) 
+VALUES ('1697146860569642741', '1346358560427216896', '1844026099075554850', to_timestamp('2023-08-31 06:59:01', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2023-08-31 06:59:01', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(permission(id)) */ INTO permission (id, object_id, resource_id, date_created, date_updated) 
+VALUES ('1697146860569642742', '1346358560427216896', '1844026099075554851', to_timestamp('2023-08-31 07:22:07', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2023-08-31 07:22:07', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(permission(id)) */ INTO permission (id, object_id, resource_id, date_created, date_updated) 
+VALUES ('1697146860569642743', '1346358560427216896', '1844026099075554852', to_timestamp('2023-08-31 07:14:26', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2023-08-31 07:14:26', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(permission(id)) */ INTO permission (id, object_id, resource_id, date_created, date_updated) 
+VALUES ('1697146860569642744', '1346358560427216896', '1844026099075554853', to_timestamp('2023-08-31 07:22:07', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2023-08-31 07:22:07', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(permission(id)) */ INTO permission (id, object_id, resource_id, date_created, date_updated) 
+VALUES ('1697146860569642745', '1346358560427216896', '1844026099075554854', to_timestamp('2023-08-31 07:18:37', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2023-08-31 07:18:37', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(permission(id)) */ INTO permission (id, object_id, resource_id, date_created, date_updated) 
+VALUES ('1697146860569642746', '1346358560427216896', '1844026099075554855', to_timestamp('2023-08-31 07:18:37', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2023-08-31 07:18:37', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(permission(id)) */ INTO permission (id, object_id, resource_id, date_created, date_updated) 
+VALUES ('1697146860569642747', '1346358560427216896', '1844026099075554856', to_timestamp('2023-08-31 07:18:37', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2023-08-31 07:18:37', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(permission(id)) */ INTO permission (id, object_id, resource_id, date_created, date_updated) 
+VALUES ('1697146860569642748', '1346358560427216896', '1844026099075554857', to_timestamp('2023-08-31 07:18:37', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2023-08-31 07:18:37', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(permission(id)) */ INTO permission (id, object_id, resource_id, date_created, date_updated) 
+VALUES ('1697146860569642749', '1346358560427216896', '1844026099075554858', to_timestamp('2023-08-31 07:18:37', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2023-08-31 07:18:37', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(permission(id)) */ INTO permission (id, object_id, resource_id, date_created, date_updated) 
+VALUES ('1697146860569642750', '1346358560427216896', '1844026099075554859', to_timestamp('2023-08-31 07:18:37', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2023-08-31 07:18:37', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(plugin(id)) */ INTO plugin (id, name, config, role, sort, enabled, date_created, date_updated, plugin_jar) 
+VALUES ('52', 'aiPrompt', null, 'Ai', 170, 0, to_timestamp('2023-12-20 18:02:53', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2023-12-20 18:02:53', 'YYYY-MM-DD HH24:MI:SS'), null);
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(plugin_handle(id)) */ INTO plugin_handle (id, plugin_id, field, label, data_type, type, sort, ext_obj, date_created, date_updated) 
+VALUES ('1722804548510507140', '52', 'prepend', 'prepend', 2, 3, 1, '{"required":"0","rule":""}', to_timestamp('2024-01-02 17:20:50.233', 'YYYY-MM-DD HH24:MI:SS.FF3'), to_timestamp('2024-01-02 17:20:50.233', 'YYYY-MM-DD HH24:MI:SS.FF3'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(plugin_handle(id)) */ INTO plugin_handle (id, plugin_id, field, label, data_type, type, sort, ext_obj, date_created, date_updated) 
+VALUES ('1722804548510507141', '52', 'preRole', 'preRole', 3, 3, 2, '{"required":"0","rule":""}', to_timestamp('2024-01-02 17:20:50.233', 'YYYY-MM-DD HH24:MI:SS.FF3'), to_timestamp('2024-01-02 17:20:50.233', 'YYYY-MM-DD HH24:MI:SS.FF3'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(plugin_handle(id)) */ INTO plugin_handle (id, plugin_id, field, label, data_type, type, sort, ext_obj, date_created, date_updated) 
+VALUES ('1722804548510507142', '52', 'append', 'append', 2, 3, 3, '{"required":"0","rule":""}', to_timestamp('2024-01-02 17:20:50.233', 'YYYY-MM-DD HH24:MI:SS.FF3'), to_timestamp('2024-01-02 17:20:50.233', 'YYYY-MM-DD HH24:MI:SS.FF3'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(plugin_handle(id)) */ INTO plugin_handle (id, plugin_id, field, label, data_type, type, sort, ext_obj, date_created, date_updated) 
+VALUES ('1722804548510507143', '52', 'postRole', 'postRole', 3, 3, 4, '{"required":"0","rule":""}', to_timestamp('2024-01-02 17:20:50.233', 'YYYY-MM-DD HH24:MI:SS.FF3'), to_timestamp('2024-01-02 17:20:50.233', 'YYYY-MM-DD HH24:MI:SS.FF3'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(resource(id)) */ INTO resource (id, parent_id, title, name, url, component, resource_type, sort, icon, is_leaf, is_route, perms, status, date_created, date_updated) 
+VALUES ('1844026099075554850', '1346775491550474240', 'aiPrompt', 'aiPrompt', '/plug/aiPrompt', 'aiPrompt', 1, 0, 'pic-center', 0, 0, '', 1, to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(resource(id)) */ INTO resource (id, parent_id, title, name, url, component, resource_type, sort, icon, is_leaf, is_route, perms, status, date_created, date_updated) 
+VALUES ('1844026099075554851', '1844026099075554850', 'SHENYU.BUTTON.PLUGIN.SELECTOR.ADD', '', '', '', 2, 0, '', 1, 0, 'plugin:aiPromptSelector:add', 1, to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(resource(id)) */ INTO resource (id, parent_id, title, name, url, component, resource_type, sort, icon, is_leaf, is_route, perms, status, date_created, date_updated) 
+VALUES ('1844026099075554852', '1844026099075554850', 'SHENYU.BUTTON.PLUGIN.SELECTOR.QUERY', '', '', '', 2, 0, '', 1, 0, 'plugin:aiPromptSelector:query', 1, to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(resource(id)) */ INTO resource (id, parent_id, title, name, url, component, resource_type, sort, icon, is_leaf, is_route, perms, status, date_created, date_updated) 
+VALUES ('1844026099075554853', '1844026099075554850', 'SHENYU.BUTTON.PLUGIN.SELECTOR.EDIT', '', '', '', 2, 0, '', 1, 0, 'plugin:aiPromptSelector:edit', 1, to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(resource(id)) */ INTO resource (id, parent_id, title, name, url, component, resource_type, sort, icon, is_leaf, is_route, perms, status, date_created, date_updated) 
+VALUES ('1844026099075554854', '1844026099075554850', 'SHENYU.BUTTON.PLUGIN.SELECTOR.DELETE', '', '', '', 2, 0, '', 1, 0, 'plugin:aiPromptSelector:delete', 1, to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(resource(id)) */ INTO resource (id, parent_id, title, name, url, component, resource_type, sort, icon, is_leaf, is_route, perms, status, date_created, date_updated) 
+VALUES ('1844026099075554855', '1844026099075554850', 'SHENYU.BUTTON.PLUGIN.RULE.ADD', '', '', '', 2, 0, '', 1, 0, 'plugin:aiPromptRule:add', 1, to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(resource(id)) */ INTO resource (id, parent_id, title, name, url, component, resource_type, sort, icon, is_leaf, is_route, perms, status, date_created, date_updated) 
+VALUES ('1844026099075554856', '1844026099075554850', 'SHENYU.BUTTON.PLUGIN.RULE.QUERY', '', '', '', 2, 0, '', 1, 0, 'plugin:aiPromptRule:query', 1, to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(resource(id)) */ INTO resource (id, parent_id, title, name, url, component, resource_type, sort, icon, is_leaf, is_route, perms, status, date_created, date_updated) 
+VALUES ('1844026099075554857', '1844026099075554850', 'SHENYU.BUTTON.PLUGIN.RULE.EDIT', '', '', '', 2, 0, '', 1, 0, 'plugin:aiPromptRule:edit', 1, to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(resource(id)) */ INTO resource (id, parent_id, title, name, url, component, resource_type, sort, icon, is_leaf, is_route, perms, status, date_created, date_updated) 
+VALUES ('1844026099075554858', '1844026099075554850', 'SHENYU.BUTTON.PLUGIN.RULE.DELETE', '', '', '', 2, 0, '', 1, 0, 'plugin:aiPromptRule:delete', 1, to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(resource(id)) */ INTO resource (id, parent_id, title, name, url, component, resource_type, sort, icon, is_leaf, is_route, perms, status, date_created, date_updated) 
+VALUES ('1844026099075554859', '1844026099075554850', 'SHENYU.BUTTON.PLUGIN.SYNCHRONIZE', '', '', '', 2, 0, '', 1, 0, 'plugin:aiPrompt:modify', 1, to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2022-05-25 18:02:58', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(shenyu_dict(id)) */ INTO shenyu_dict (id, type, dict_code, dict_name, dict_value, desc, sort, enabled, date_created, date_updated) 
+VALUES ('1679002911061737580', 'preRole', 'ROLE_TYPE_SYSTEM', 'SYSTEM', 'system', 'system', 0, 1, to_timestamp('2024-02-07 14:31:49', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2024-02-07 14:31:49', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(shenyu_dict(id)) */ INTO shenyu_dict (id, type, dict_code, dict_name, dict_value, desc, sort, enabled, date_created, date_updated) 
+VALUES ('1679002911061737581', 'preRole', 'ROLE_TYPE_USER', 'USER', 'user', 'user', 1, 1, to_timestamp('2024-02-07 14:31:49', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2024-02-07 14:31:49', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(shenyu_dict(id)) */ INTO shenyu_dict (id, type, dict_code, dict_name, dict_value, desc, sort, enabled, date_created, date_updated) 
+VALUES ('1679002911061737582', 'postRole', 'ROLE_TYPE_SYSTEM', 'SYSTEM', 'system', 'system', 0, 1, to_timestamp('2024-02-07 14:31:49', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2024-02-07 14:31:49', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(shenyu_dict(id)) */ INTO shenyu_dict (id, type, dict_code, dict_name, dict_value, desc, sort, enabled, date_created, date_updated) 
+VALUES ('1679002911061737583', 'postRole', 'ROLE_TYPE_USER', 'USER', 'user', 'user', 1, 1, to_timestamp('2024-02-07 14:31:49', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2024-02-07 14:31:49', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(namespace_plugin_rel(id)) */ INTO namespace_plugin_rel (id, namespace_id, plugin_id, config, sort, enabled, date_created, date_updated) 
+VALUES ('1801816010882822189', '649330b6-c2d7-4edc-be8e-8a54df9eb385', '52', NULL, 171, 0, to_timestamp('2022-05-25 18:02:53', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2022-05-25 18:02:53', 'YYYY-MM-DD HH24:MI:SS'));
+
 INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX(plugin(id)) */ INTO plugin (id, name, config, role, sort, enabled, date_created, date_updated, plugin_jar) VALUES ('51', 'aiTokenLimiter', NULL, 'Ai', 171, 0, to_timestamp('2023-12-20 18:02:53', 'YYYY-MM-DD HH24:MI:SS'), to_timestamp('2023-12-20 18:02:53', 'YYYY-MM-DD HH24:MI:SS'), null);
 
 INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX (namespace_plugin_rel(id)) */ INTO namespace_plugin_rel (id,namespace_id,plugin_id, config, sort, enabled) VALUES ('1801816010882822188','649330b6-c2d7-4edc-be8e-8a54df9eb385','51', NULL, 171, 0);

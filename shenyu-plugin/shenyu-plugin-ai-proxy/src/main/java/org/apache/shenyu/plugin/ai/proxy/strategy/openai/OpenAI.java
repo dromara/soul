@@ -76,7 +76,6 @@ public class OpenAI implements AiModel {
         Map<String, Object> requestBodyMap = GsonUtils.getInstance().convertToMap(originalBody);
         requestBodyMap.put(Constants.MODEL, aiProxyConfig.getModel());
         requestBodyMap.put(Constants.STREAM, aiProxyConfig.getStream());
-        requestBodyMap.put(Constants.PROMPT, aiProxyConfig.getPrompt());
         return GsonUtils.getInstance().toJson(requestBodyMap);
     }
     

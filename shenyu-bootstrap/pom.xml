@@ -246,6 +246,14 @@
             <version>${project.version}</version>
         </dependency>
         <!--Ai proxy Plugin end-->
+        
+        <!--Ai prompt Plugin Start-->
+        <dependency>
+            <groupId>org.apache.shenyu</groupId>
+            <artifactId>shenyu-spring-boot-starter-plugin-ai-prompt</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!--Ai prompt Plugin end-->
 
         <!--Ai token limiter Plugin Start-->
         <dependency>

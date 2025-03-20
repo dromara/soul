@@ -55,11 +55,6 @@ public class AiProxyConfig {
     private Integer maxTokens;
 
     /**
-     * prompt.
-     */
-    private String prompt;
-
-    /**
      * stream.
      */
     private Boolean stream = false;
@@ -173,24 +168,6 @@ public class AiProxyConfig {
     }
 
     /**
-     * get prompt.
-     *
-     * @return prompt
-     */
-    public String getPrompt() {
-        return prompt;
-    }
-
-    /**
-     * set prompt.
-     *
-     * @param prompt prompt
-     */
-    public void setPrompt(final String prompt) {
-        this.prompt = prompt;
-    }
-
-    /**
      * get stream.
      *
      * @return stream
@@ -223,21 +200,24 @@ public class AiProxyConfig {
                 && Objects.equals(model, that.model)
                 && Objects.equals(temperature, that.temperature)
                 && Objects.equals(maxTokens, that.maxTokens)
-                && Objects.equals(prompt, that.prompt)
                 && Objects.equals(stream, that.stream);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(provider, baseUrl, apiKey, model, temperature, maxTokens, prompt, stream);
+        return Objects.hash(provider, baseUrl, apiKey, model, temperature, maxTokens, stream);
     }
 
     @Override
     public String toString() {
-        return "AiProxyHandle{" + "provider='" + provider + '\'' + "baseUrl='" + baseUrl + '\'' + ", apiKey='" + apiKey
-                + '\'' + ", model='" + model
-                + '\''
-                + ", temperature=" + temperature + ", maxTokens=" + maxTokens
-                + ", prompt='" + prompt + '\'' + ", stream=" + stream + '}';
+        return "AiProxyConfig{"
+                + "provider='" + provider + '\''
+                + ", baseUrl='" + baseUrl + '\''
+                + ", apiKey='" + apiKey + '\''
+                + ", model='" + model + '\''
+                + ", temperature=" + temperature
+                + ", maxTokens=" + maxTokens
+                + ", stream=" + stream
+                + '}';
     }
 }

@@ -143,6 +143,11 @@ public enum PluginEnum {
     LOGGING_CONSOLE(160, 0, "loggingConsole"),
     
     /**
+     * AI Prompt plugin enum.
+     */
+    AI_PROMPT(170, 0, "aiPrompt"),
+    
+    /**
      * Logging RocketMQ plugin enum.
      */
     LOGGING_ROCKETMQ(170, 0, "loggingRocketMQ"),
