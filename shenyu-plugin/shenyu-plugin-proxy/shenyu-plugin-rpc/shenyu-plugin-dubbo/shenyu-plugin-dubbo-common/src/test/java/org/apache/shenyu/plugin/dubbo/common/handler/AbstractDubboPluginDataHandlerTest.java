@@ -49,6 +49,14 @@ public class AbstractDubboPluginDataHandlerTest {
             @Override
             protected void initConfigCache(final DubboRegisterConfig dubboRegisterConfig) {
             }
+
+            @Override
+            protected void invalidateReferenceBySelector(final SelectorData selectorData) {
+            }
+
+            @Override
+            protected void invalidateReferenceByRule(final RuleData ruleData) {
+            }
         };
     }
 

@@ -23,6 +23,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.rpc.service.GenericService;
 import org.apache.shenyu.common.dto.MetaData;
+import org.apache.shenyu.common.dto.RuleData;
+import org.apache.shenyu.common.dto.SelectorData;
 import org.apache.shenyu.common.enums.RpcTypeEnum;
 import org.apache.shenyu.plugin.apache.dubbo.cache.ApacheDubboConfigCache;
 import org.apache.shenyu.plugin.dubbo.common.param.DubboParamResolveService;
@@ -60,6 +62,10 @@ public final class ApacheDubboProxyServiceTest {
 
     private MetaData metaData;
 
+    private SelectorData selectorData;
+
+    private RuleData ruleData;
+
     private ServerWebExchange exchange;
 
     @Mock
@@ -75,6 +81,13 @@ public final class ApacheDubboProxyServiceTest {
         metaData.setServiceName("org.apache.shenyu.test.dubbo.api.service.DubboTestService");
         metaData.setMethodName(METHOD_NAME);
         metaData.setRpcType(RpcTypeEnum.DUBBO.getName());
+        selectorData = new SelectorData();
+        selectorData.setId("1895390769043820544");
+        selectorData.setPluginId("6");
+        selectorData.setHandle("[]");
+        ruleData = new RuleData();
+        ruleData.setId("1895390769224175616");
+        ruleData.setHandle("{}");
     }
 
     @AfterEach
@@ -95,7 +108,7 @@ public final class ApacheDubboProxyServiceTest {
         field.setAccessible(true);
         ((LoadingCache<String, ReferenceConfig<GenericService>>) field.get(apacheDubboConfigCache)).put(PATH, referenceConfig);
         ApacheDubboProxyService apacheDubboProxyService = new ApacheDubboProxyService(new BodyParamResolveServiceImpl());
-        apacheDubboProxyService.genericInvoker("", metaData, exchange);
+        apacheDubboProxyService.genericInvoker("", metaData, selectorData, ruleData, exchange);
         future.complete("success");
     }
 

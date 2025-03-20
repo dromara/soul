@@ -21,7 +21,7 @@ spring:
   application:
     name: shenyu-admin
   profiles:
-    active: h2
+    active: mysql
   thymeleaf:
     cache: true
     encoding: utf-8

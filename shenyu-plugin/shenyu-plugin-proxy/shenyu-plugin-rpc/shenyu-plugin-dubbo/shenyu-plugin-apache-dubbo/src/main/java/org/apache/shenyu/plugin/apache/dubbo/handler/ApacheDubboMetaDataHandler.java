@@ -41,10 +41,14 @@ public class ApacheDubboMetaDataHandler extends AbstractDubboMetaDataHandler {
     @Override
     protected void updateReference(final MetaData metaData) {
         ApacheDubboConfigCache.getInstance().build(metaData, "");
+        // remove old upstream reference
+        ApacheDubboConfigCache.getInstance().invalidateWithMetadataId(metaData.getId());
     }
 
     @Override
-    protected void invalidateReference(final String path) {
-        ApacheDubboConfigCache.getInstance().invalidate(path);
+    protected void invalidateReference(final MetaData metaData) {
+        ApacheDubboConfigCache.getInstance().invalidate(metaData.getPath());
+        // remove old upstream reference
+        ApacheDubboConfigCache.getInstance().invalidateWithMetadataId(metaData.getId());
     }
 }

@@ -53,6 +53,10 @@ public abstract class AbstractDubboPluginDataHandler implements PluginDataHandle
 
     protected abstract void initConfigCache(DubboRegisterConfig dubboRegisterConfig);
 
+    protected abstract void invalidateReferenceBySelector(SelectorData selectorData);
+
+    protected abstract void invalidateReferenceByRule(RuleData ruleData);
+
     @Override
     public void handlerPlugin(final PluginData pluginData) {
         if (Objects.nonNull(pluginData) && Boolean.TRUE.equals(pluginData.getEnabled())) {
@@ -71,6 +75,8 @@ public abstract class AbstractDubboPluginDataHandler implements PluginDataHandle
 
     @Override
     public void handlerSelector(final SelectorData selectorData) {
+        // remove old upstream reference
+        this.invalidateReferenceBySelector(selectorData);
         if (!selectorData.getContinued()) {
             RULE_CACHED_HANDLE.get().cachedHandle(CacheKeyUtils.INST.getKey(selectorData.getId(), Constants.DEFAULT_RULE), DubboRuleHandle.newInstance());
         }
@@ -98,16 +104,22 @@ public abstract class AbstractDubboPluginDataHandler implements PluginDataHandle
         SELECTOR_CACHED_HANDLE.get().removeHandle(selectorData.getId());
         UpstreamCacheManager.getInstance().removeByKey(selectorData.getId());
         RULE_CACHED_HANDLE.get().removeHandle(CacheKeyUtils.INST.getKey(selectorData.getId(), Constants.DEFAULT_RULE));
+        // remove old upstream reference
+        this.invalidateReferenceBySelector(selectorData);
     }
 
     @Override
     public void handlerRule(final RuleData ruleData) {
         RULE_CACHED_HANDLE.get().cachedHandle(ruleData.getId(), GsonUtils.getInstance().fromJson(ruleData.getHandle(), DubboRuleHandle.class));
+        // remove old upstream reference
+        this.invalidateReferenceByRule(ruleData);
     }
 
     @Override
     public void removeRule(final RuleData ruleData) {
         RULE_CACHED_HANDLE.get().removeHandle(ruleData.getId());
+        // remove old upstream reference
+        this.invalidateReferenceByRule(ruleData);
     }
 
     @Override

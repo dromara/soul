@@ -26,6 +26,11 @@ public interface Constants {
      * The constant string separator.
      */
     String SEPARATOR_CHARS = ";";
+
+    /**
+     * The constant string separator.
+     */
+    String SEPARATOR_UNDERLINE = "_";
     
     /**
      * The constant SUCCESS.
@@ -557,6 +562,16 @@ public interface Constants {
      * dubbo load balance from meta data.
      */
     String DUBBO_LOAD_BALANCE = "dubboLoadBalance";
+
+    /**
+     * dubbo serialization protobuf.
+     */
+    String DUBBO_SERIALIZATION_PROTOBUF = "protobuf";
+
+    /**
+     * dubbo default application name.
+     */
+    String DUBBO_DEFAULT_APPLICATION_NAME = "shenyu_proxy";
     
     /**
      * dubbo group.

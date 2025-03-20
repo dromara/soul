@@ -14,7 +14,7 @@
 # limitations under the License.
 
 server:
-  port: 8011
+  port: 8012
   address: 0.0.0.0
   servlet:
     context-path: /
@@ -23,8 +23,9 @@ spring:
     allow-bean-definition-overriding: true
 dubbo:
   registry:
-    address: zookeeper://localhost:2181
-    
+    address: nacos://127.0.0.1:8849?namespace=namespace1
+#    address: zookeeper://localhost:2181
+
 shenyu:
   namespace: 649330b6-c2d7-4edc-be8e-8a54df9eb385
   register:

@@ -17,6 +17,8 @@
 
 package org.apache.shenyu.plugin.apache.dubbo.handler;
 
+import org.apache.shenyu.common.dto.RuleData;
+import org.apache.shenyu.common.dto.SelectorData;
 import org.apache.shenyu.common.dto.convert.plugin.DubboRegisterConfig;
 import org.apache.shenyu.plugin.apache.dubbo.cache.ApacheDubboConfigCache;
 import org.apache.shenyu.plugin.dubbo.common.handler.AbstractDubboPluginDataHandler;
@@ -30,5 +32,15 @@ public class ApacheDubboPluginDataHandler extends AbstractDubboPluginDataHandler
     protected void initConfigCache(final DubboRegisterConfig dubboRegisterConfig) {
         ApacheDubboConfigCache.getInstance().init(dubboRegisterConfig);
         ApacheDubboConfigCache.getInstance().invalidateAll();
+    }
+
+    @Override
+    protected void invalidateReferenceBySelector(final SelectorData selectorData) {
+        ApacheDubboConfigCache.getInstance().invalidateWithSelectorId(selectorData.getId());
+    }
+
+    @Override
+    protected void invalidateReferenceByRule(final RuleData ruleData) {
+        ApacheDubboConfigCache.getInstance().invalidateWithRuleId(ruleData.getId());
     }
 }
