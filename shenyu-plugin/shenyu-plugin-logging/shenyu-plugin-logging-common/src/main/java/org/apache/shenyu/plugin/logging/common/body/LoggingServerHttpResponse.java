@@ -127,7 +127,7 @@ public class LoggingServerHttpResponse<L extends ShenyuRequestLog> extends Serve
     @NonNull
     private Flux<? extends DataBuffer> appendResponse(final Publisher<? extends DataBuffer> body) {
         ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
         if (Objects.nonNull(getStatusCode())) {
             logInfo.setStatus(getStatusCode().value());
         }
@@ -196,7 +196,7 @@ public class LoggingServerHttpResponse<L extends ShenyuRequestLog> extends Serve
      */
     private String getUpstreamIp() {
         ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
         if (RpcTypeEnum.HTTP.getName().equals(shenyuContext.getRpcType())) {
             URI uri = exchange.getAttribute(Constants.HTTP_URI);
             if (Objects.nonNull(uri)) {
@@ -242,13 +242,13 @@ public class LoggingServerHttpResponse<L extends ShenyuRequestLog> extends Serve
         final ShenyuResult<?> shenyuResult = ShenyuResultWrap.shenyuResult();
         Object resultData = shenyuResult.format(exchange, result);
         final Object responseData = shenyuResult.result(exchange, resultData);
-        assert Objects.nonNull(responseData);
+        Objects.requireNonNull(responseData);
         final byte[] bytes = (responseData instanceof byte[])
                 ? (byte[]) responseData
                 : responseData.toString().getBytes(StandardCharsets.UTF_8);
         logInfo.setResponseContentLength(bytes.length);
         ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
         logInfo.setTimeLocal(shenyuContext.getStartDateTime().format(DATE_TIME_FORMATTER));
         logInfo.setModule(shenyuContext.getModule());
         long costTime = DateUtils.acquireMillisBetween(shenyuContext.getStartDateTime(), LocalDateTime.now());

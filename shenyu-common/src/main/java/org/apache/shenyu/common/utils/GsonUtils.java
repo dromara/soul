@@ -357,7 +357,7 @@ public class GsonUtils {
             }
             
             Map<T, U> resultMap = null;
-            assert Objects.nonNull(mapClass);
+            Objects.requireNonNull(mapClass);
             if (Objects.requireNonNull(mapClass).isInterface()) {
                 resultMap = new LinkedHashMap<>();
             } else {

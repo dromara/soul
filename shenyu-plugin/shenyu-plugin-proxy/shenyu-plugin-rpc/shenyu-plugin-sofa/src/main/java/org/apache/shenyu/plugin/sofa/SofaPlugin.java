@@ -70,10 +70,10 @@ public class SofaPlugin extends AbstractShenyuPlugin {
     protected Mono<Void> doExecute(final ServerWebExchange exchange, final ShenyuPluginChain chain, final SelectorData selector, final RuleData rule) {
         String param = exchange.getAttribute(Constants.PARAM_TRANSFORM);
         ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
         MetaData metaData = exchange.getAttribute(Constants.META_DATA);
         if (!checkMetaData(metaData)) {
-            assert Objects.nonNull(metaData);
+            Objects.requireNonNull(metaData);
             LOG.error(" path is :{}, meta data have error.... {}", shenyuContext.getPath(), metaData);
             exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
             Object error = ShenyuResultWrap.error(exchange, ShenyuResultEnum.META_DATA_ERROR);

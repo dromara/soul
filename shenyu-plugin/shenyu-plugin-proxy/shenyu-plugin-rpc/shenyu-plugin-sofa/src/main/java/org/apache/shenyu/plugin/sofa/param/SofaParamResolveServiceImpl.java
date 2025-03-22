@@ -28,6 +28,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.shenyu.common.utils.GsonUtils;
 import org.apache.shenyu.common.utils.ParamCheckUtils;
 import org.springframework.lang.NonNull;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +74,7 @@ public class SofaParamResolveServiceImpl implements SofaParamResolveService {
                 // no generic info
                 return mapValue;
             }
-            assert parameterType.length == 3;
+            Assert.state(parameterType.length == 3, "parameterType length must be 3.");
             // generic map
             final GenericMap genericMap = new GenericMap(parameterType[2]);
             mapValue.replaceAll((k, v) -> convertToGenericObject(parameterType[2], mapValue.get(k)));

@@ -57,7 +57,7 @@ public class RewritePlugin extends AbstractShenyuPlugin {
         }
         // match the new selector/rule of RewritePlugin
         ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
         return rewriteContextPath + shenyuContext.getRealUrl();
     }
     
@@ -90,7 +90,7 @@ public class RewritePlugin extends AbstractShenyuPlugin {
                     attributes.put(Constants.META_DATA, metaData);
                 }
                 ShenyuContext context = exchange.getAttribute(Constants.CONTEXT);
-                assert Objects.nonNull(context);
+                Objects.requireNonNull(context);
                 if (Objects.nonNull(metaData) && Boolean.TRUE.equals(metaData.getEnabled())) {
                     context.setRpcType(metaData.getRpcType());
                 } else {

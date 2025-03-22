@@ -92,7 +92,7 @@ public class RedisConnectionFactory {
     protected final RedisStandaloneConfiguration redisStandaloneConfiguration(final RedisConfigProperties redisConfigProperties) {
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
         String[] parts = StringUtils.split(redisConfigProperties.getUrl(), ":");
-        assert Objects.nonNull(parts);
+        Objects.requireNonNull(parts);
         config.setHostName(parts[0]);
         config.setPort(Integer.parseInt(parts[1]));
         if (Objects.nonNull(redisConfigProperties.getPassword())) {

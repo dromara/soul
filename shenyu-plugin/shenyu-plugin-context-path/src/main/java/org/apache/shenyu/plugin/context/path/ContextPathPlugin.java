@@ -50,7 +50,7 @@ public class ContextPathPlugin extends AbstractShenyuPlugin {
     @Override
     protected Mono<Void> doExecute(final ServerWebExchange exchange, final ShenyuPluginChain chain, final SelectorData selector, final RuleData rule) {
         ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
         ContextMappingRuleHandle ruleHandle = buildRuleHandle(rule);
         if (Objects.isNull(ruleHandle)) {
             LOG.error("context path rule configuration is null ：{}", rule);

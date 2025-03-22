@@ -63,7 +63,7 @@ public class AiProxyPlugin extends AbstractShenyuPlugin {
             return chain.execute(exchange);
         }
         final ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
         
         String rpcType = shenyuContext.getRpcType();
         String realUrl = shenyuContext.getRealUrl();

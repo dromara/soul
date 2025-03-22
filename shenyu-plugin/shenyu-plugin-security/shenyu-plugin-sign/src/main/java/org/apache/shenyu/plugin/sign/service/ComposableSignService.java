@@ -104,7 +104,7 @@ public class ComposableSignService implements SignService {
     private VerifyResult signatureVerify(final ServerWebExchange exchange, final BiFunction<String, SignParameters, String> signFunction) {
 
         final ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
 
         SignParameters signParameters = extractor.extract(exchange.getRequest());
 

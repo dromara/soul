@@ -48,7 +48,7 @@ public class ResponsePlugin implements ShenyuPlugin {
     @Override
     public Mono<Void> execute(final ServerWebExchange exchange, final ShenyuPluginChain chain) {
         ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
         return writerMap.get(shenyuContext.getRpcType()).writeWith(exchange, chain);
     }
 

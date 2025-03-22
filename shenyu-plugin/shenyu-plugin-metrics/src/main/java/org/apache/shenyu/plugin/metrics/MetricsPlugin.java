@@ -44,7 +44,7 @@ public class MetricsPlugin implements ShenyuPlugin {
     public Mono<Void> execute(final ServerWebExchange exchange, final ShenyuPluginChain chain) {
         MetricsReporter.counterIncrement(LabelNames.REQUEST_TOTAL);
         ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
         setMetricsCallbacks(exchange);
         MetricsReporter.counterIncrement(LabelNames.REQUEST_TYPE_TOTAL, new String[]{exchange.getRequest().getURI().getRawPath(), shenyuContext.getRpcType()});
         LocalDateTime startDateTime = Optional.of(shenyuContext).map(ShenyuContext::getStartDateTime).orElseGet(LocalDateTime::now);

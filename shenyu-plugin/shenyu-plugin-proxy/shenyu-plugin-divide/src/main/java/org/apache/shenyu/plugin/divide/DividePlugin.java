@@ -70,7 +70,7 @@ public class DividePlugin extends AbstractShenyuPlugin {
     @Override
     protected Mono<Void> doExecute(final ServerWebExchange exchange, final ShenyuPluginChain chain, final SelectorData selector, final RuleData rule) {
         ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
         DivideRuleHandle ruleHandle = buildRuleHandle(rule);
         if (ruleHandle.getHeaderMaxSize() > 0) {
             long headerSize = exchange.getRequest().getHeaders().values()

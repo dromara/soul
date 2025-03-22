@@ -55,7 +55,7 @@ public class HystrixPlugin extends AbstractShenyuPlugin {
     @Override
     protected Mono<Void> doExecute(final ServerWebExchange exchange, final ShenyuPluginChain chain, final SelectorData selector, final RuleData rule) {
         final ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
         final HystrixHandle hystrixHandle = HystrixPluginDataHandler.CACHED_HANDLE.get().obtainHandle(CacheKeyUtils.INST.getKey(rule));
         String groupKey = hystrixHandle.getGroupKey();
         if (StringUtils.isBlank(hystrixHandle.getGroupKey())) {

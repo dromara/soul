@@ -48,7 +48,7 @@ public final class RequestUrlUtils {
             path = path + rewriteUri;
         } else {
             ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-            assert Objects.nonNull(shenyuContext);
+            Objects.requireNonNull(shenyuContext);
             String realUrl = shenyuContext.getRealUrl();
             if (StringUtils.isNoneBlank(realUrl)) {
                 path = path + realUrl;
@@ -63,7 +63,7 @@ public final class RequestUrlUtils {
             if (StringUtils.isNotEmpty(uri.getQuery())) {
                 path = path + "?" + uri.getQuery();
             }
-            assert Objects.nonNull(path);
+            Objects.requireNonNull(path);
             return UriComponentsBuilder.fromUriString(path).build(false).toUri();
         }
     }

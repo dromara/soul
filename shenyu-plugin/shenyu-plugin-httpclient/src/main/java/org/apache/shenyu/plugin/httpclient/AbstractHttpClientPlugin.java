@@ -74,7 +74,7 @@ public abstract class AbstractHttpClientPlugin<R> implements ShenyuPlugin {
     @Override
     public final Mono<Void> execute(final ServerWebExchange exchange, final ShenyuPluginChain chain) {
         final ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
         final URI uri = exchange.getAttribute(Constants.HTTP_URI);
         if (Objects.isNull(uri)) {
             Object error = ShenyuResultWrap.error(exchange, ShenyuResultEnum.CANNOT_FIND_URL);

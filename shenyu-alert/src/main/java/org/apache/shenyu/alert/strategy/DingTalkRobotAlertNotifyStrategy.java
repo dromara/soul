@@ -56,7 +56,7 @@ final class DingTalkRobotAlertNotifyStrategy extends AbstractAlertNotifyHandler 
             ResponseEntity<CommonRobotNotifyResp> responseEntity = getRestTemplate().postForEntity(webHookUrl,
                     httpEntity, CommonRobotNotifyResp.class);
             if (responseEntity.getStatusCode() == HttpStatus.OK) {
-                assert Objects.nonNull(responseEntity.getBody());
+                Objects.requireNonNull(responseEntity.getBody());
                 if (responseEntity.getBody().getErrCode() == 0) {
                     log.debug("Send dingTalk webHook: {} Success", webHookUrl);
                 } else {

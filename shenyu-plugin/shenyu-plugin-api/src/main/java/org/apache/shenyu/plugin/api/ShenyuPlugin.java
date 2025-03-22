@@ -97,7 +97,7 @@ public interface ShenyuPlugin {
             return false;
         }
         ShenyuContext shenyuContext = exchange.getAttribute(Constants.CONTEXT);
-        assert Objects.nonNull(shenyuContext);
+        Objects.requireNonNull(shenyuContext);
         return Arrays.stream(rpcTypes).anyMatch(type -> Objects.equals(shenyuContext.getRpcType(), type.getName()));
     }
 
